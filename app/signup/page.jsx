@@ -1,7 +1,24 @@
+"use client"
+import React, { useContext, useEffect } from 'react'
+import { AppContent } from '../context/AppContext'
+import { useRouter } from 'next/navigation'
 import SignUp from '@/components/SignUp'
-import React from 'react'
 
 const SignUpPage = () => {
+    const { isLoggedIn , isAuthenticated } = useContext(AppContent)
+    const router = useRouter()
+
+    useEffect(() => {
+     isAuthenticated()
+    }, [])
+
+    useEffect(() => {
+        if(isLoggedIn) {
+            router.push('/')
+            // console.log('logged in')
+        }
+    }, [isLoggedIn])
+    
   return (
     <>
     <SignUp/>
