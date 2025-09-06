@@ -3,6 +3,7 @@ import axios from 'axios'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 
 const LogIn = () => {
@@ -15,9 +16,11 @@ const LogIn = () => {
       const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/signin`, data, { withCredentials: true })
       if (res.status === 200) {
         router.push('/')
-      }
-    if(res.success === true) {
-      router.push('/')
+    toast("Logged in successfully")
+}
+if(res.success === true) {
+    toast("Logged in successfully")
+    router.push('/')
     }
     } catch (error) {
       setError("apiError", { message: error.response.data.message });
