@@ -20,7 +20,7 @@ const LogIn = () => {
 }
 if(res.success === true) {
     toast("Logged in successfully")
-    router.push('/')
+    router.push('/dashboard')
     }
     } catch (error) {
       setError("apiError", { message: error.response.data.message });

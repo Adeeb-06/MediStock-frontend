@@ -13,7 +13,7 @@ export const AppProvider = ({ children }) => {
         try {
             const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/isAuthenticated`, { withCredentials: true })
             // const data = await res.json()
-            console.log(res)
+            // console.log(res)
             if (res.status === 200) {
                 setIsLoggedIn(true)
             }

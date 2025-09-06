@@ -1,8 +1,14 @@
-import React from 'react'
+"use client"
+import React, { useContext } from 'react'
 import { Pill, Package, TrendingUp, Home, LogOut } from 'lucide-react'
 import Link from 'next/link'
+import axios from 'axios'
+import { AppContent } from '@/app/context/AppContext'
+import { useRouter } from 'next/navigation'
 
 const SideBar = () => {
+const {setIsLoggedIn} = useContext(AppContent)
+const router = useRouter()
     const menuGroups = [
         {
             id: 'medicines',
@@ -32,6 +38,20 @@ const SideBar = () => {
             ]
         }
     ]
+
+    const logout = async () => {
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/signout`, {}, { withCredentials: true })
+            if (response.status === 200) {
+                setIsLoggedIn(false)
+                toast.success('Logged out successfully')
+                router.push('/login')
+               console.log('Logged out successfully')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <div className="h-screen w-64 bg-gray-900 text-white flex flex-col relative">
@@ -102,7 +122,7 @@ const SideBar = () => {
                             <p className="text-xs text-gray-400">Administrator</p>
                         </div>
                     </div>
-                    <button className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-all duration-200">
+                    <button onClick={()=> logout()} className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-all duration-200">
                         <LogOut className="w-4 h-4" />
                     </button>
                 </div>
