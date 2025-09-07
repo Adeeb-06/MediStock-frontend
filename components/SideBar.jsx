@@ -20,6 +20,15 @@ const router = useRouter()
             ]
         },
         {
+            id: 'company',
+            title: 'Company',
+            icon: Pill,
+            items: [
+                { name: 'Create company', href: '/dashboard/companies/create' },
+                { name: 'Show All Companies', href: '/dashboard/companies' }
+            ]
+        },
+        {
             id: 'stock',
             title: 'Stock',
             icon: Package,

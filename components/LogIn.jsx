@@ -7,7 +7,7 @@ import { toast } from 'sonner'
 
 
 const LogIn = () => {
-  const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm()
+  const { register, handleSubmit, setError, formState: { errors } } = useForm()
 
   const router = useRouter()
   const onSubmit = async(data) => {
@@ -15,13 +15,9 @@ const LogIn = () => {
     try {
       const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/signin`, data, { withCredentials: true })
       if (res.status === 200) {
-        router.push('/')
-    toast("Logged in successfully")
+        toast("Logged in successfully")
+        router.push('/dashboard')
 }
-if(res.success === true) {
-    toast("Logged in successfully")
-    router.push('/dashboard')
-    }
     } catch (error) {
       setError("apiError", { message: error.response.data.message });
       console.log(error.response.data.message);
