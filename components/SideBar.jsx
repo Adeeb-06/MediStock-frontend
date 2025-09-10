@@ -5,6 +5,7 @@ import Link from 'next/link'
 import axios from 'axios'
 import { AppContent } from '@/app/context/AppContext'
 import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 const SideBar = () => {
 const {setIsLoggedIn} = useContext(AppContent)
@@ -33,8 +34,9 @@ const router = useRouter()
             title: 'Stock',
             icon: Package,
             items: [
-                { name: 'Create New Stock', href: '/stock/create' },
-                { name: 'Show Stocks', href: '/stock' }
+                { name: 'Create New Stock', href: '/dashboard/stock/newStock' },
+                { name: 'Sell Stock', href: '/dashboard/stock/sellStock' },
+                { name: 'Show Stocks', href: '/dashboard/stock' }
             ]
         },
         {
@@ -42,7 +44,6 @@ const router = useRouter()
             title: 'Sales',
             icon: TrendingUp,
             items: [
-                { name: 'Create Sales', href: '/sales/create' },
                 { name: 'Show Sales', href: '/sales' }
             ]
         }

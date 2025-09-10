@@ -9,6 +9,7 @@ export const AppContent = createContext();
 export const AppProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [companiesData, setCompaniesData] = useState([])
+    const [medicinesData, setMedicinesData] = useState([])
 
     const isAuthenticated = async () => {
         try {
@@ -35,12 +36,25 @@ export const AppProvider = ({ children }) => {
         }
     }
 
+    const getMedicines = async () => {
+        try {
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/medicine/medicines`, { withCredentials: true })
+            if (res.status === 200) {
+                setMedicinesData(res.data)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const value = {
         isLoggedIn,
         setIsLoggedIn,
         isAuthenticated,
         getCompanies,
         companiesData,
+        getMedicines,
+        medicinesData
     }
 
     return (

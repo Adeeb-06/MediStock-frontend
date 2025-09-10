@@ -1,8 +1,9 @@
+import MedicineTable from '@/components/MedicineTable'
 import React from 'react'
 
 const MedicinePage = () => {
   return (
-    <div>MedicinePage</div>
+    <div><MedicineTable/></div>
   )
 }
 

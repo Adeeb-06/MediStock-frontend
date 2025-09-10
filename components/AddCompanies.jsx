@@ -34,7 +34,7 @@ const AddCompanies = () => {
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/company/company-create`, {
         name: companies.filter(company => company.trim() !== ""), // Filter out empty entries
-      });
+      } , {withCredentials: true});
       toast.success("Companies added successfully!");
       setCompanies([""]); // reset
     } catch (error) {
