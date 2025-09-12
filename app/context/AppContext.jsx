@@ -10,6 +10,7 @@ export const AppProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [companiesData, setCompaniesData] = useState([])
     const [medicinesData, setMedicinesData] = useState([])
+    const [stocksData, setStocksData] = useState([])
 
     const isAuthenticated = async () => {
         try {
@@ -47,6 +48,26 @@ export const AppProvider = ({ children }) => {
         }
     }
 
+    const companyById = async (companyId) => {
+        try {
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/company/company-by-id`, companyId , { withCredentials: true })
+            return res.data.name
+        } catch (error) {
+            console.log(error)
+        }
+    } 
+
+    const getAllStocks = async () => {
+        try {
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/stock/stock-all`, { withCredentials: true })
+            if (res.status === 200) {
+                setStocksData(res.data.stocks)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const value = {
         isLoggedIn,
         setIsLoggedIn,
@@ -54,7 +75,10 @@ export const AppProvider = ({ children }) => {
         getCompanies,
         companiesData,
         getMedicines,
-        medicinesData
+        medicinesData,
+        companyById,
+        getAllStocks,
+        stocksData
     }
 
     return (

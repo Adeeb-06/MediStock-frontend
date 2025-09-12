@@ -1,8 +1,9 @@
+import StocksTable from '@/components/StocksTable'
 import React from 'react'
 
 const StocksPage = () => {
   return (
-    <div>StocksPage</div>
+    <div><StocksTable/></div>
   )
 }
 
