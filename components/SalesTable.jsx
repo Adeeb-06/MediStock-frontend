@@ -7,8 +7,8 @@ import { Eye, Edit, Trash2, Package, DollarSign, Building2, AlertCircle } from "
 import { toast } from 'sonner'
 import Link from 'next/link'
 
-const StocksTable = () => {
-    const { stocksData, getAllStocks } = useContext(AppContent)
+const SalesTable = () => {
+    const { salesData, getSales } = useContext(AppContent)
     const [sortBy, setSortBy] = React.useState("createdAt");
     const [sortOrder, setSortOrder] = React.useState("asc");
     const [searchTerm, setSearchTerm] = useState('')
@@ -19,7 +19,7 @@ const StocksTable = () => {
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true)
-            await getAllStocks()
+            await getSales()
             setIsLoading(false)
         }
         fetchData()
@@ -36,7 +36,7 @@ const StocksTable = () => {
         }
     }
 
-    console.log(stocksData)
+    console.log(salesData)
    
 
     const formateDate = (date) => {
@@ -45,25 +45,25 @@ const StocksTable = () => {
         return dateObj.toLocaleDateString("en-US", options);
     };
 
-    const filteredStocks = stocksData?.filter(stock => {
-        return stock.medicine.name.toLowerCase().includes(searchTerm.toLowerCase()) || stock._id.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredSales = salesData?.filter(sale => {
+        return sale.medicine.name.toLowerCase().includes(searchTerm.toLowerCase())
     })  || []
-const expiredCount = filteredStocks.reduce((count, stock) => {
-  const isExpired = new Date(stock.expiryDate) < new Date();
-  const hasStock = stock.quantity > 0;
-  return count + (isExpired && hasStock ? 1 : 0);
-}, 0);
+// const expiredCount = filteredStocks.reduce((count, stock) => {
+//   const isExpired = new Date(stock.expiryDate) < new Date();
+//   const hasStock = stock.quantity > 0;
+//   return count + (isExpired && hasStock ? 1 : 0);
+// }, 0);
 
 
 
-const totalValue = filteredStocks.reduce((total, stock) => {
-  return total + (Number(stock.totalPrice) || 0);
-}, 0);
+// const totalValue = filteredStocks.reduce((total, stock) => {
+//   return total + (Number(stock.totalPrice) || 0);
+// }, 0);
 
-    console.log(expired)
+    // console.log(expired)
 
 
-    const sortedStocks = [...filteredStocks].sort((a, b) => {
+    const sortedSales = [...filteredSales].sort((a, b) => {
         let aValue = new Date(a[sortBy]);
         let bValue = new Date(b[sortBy]);
 
@@ -124,7 +124,7 @@ const totalValue = filteredStocks.reduce((total, stock) => {
                             </div>
                             <div>
                                 <p className="text-gray-400 text-sm">Total Stock</p>
-                                <p className="text-white font-semibold text-lg">{ sortedStocks.length || 0}</p>
+                                <p className="text-white font-semibold text-lg">{ sortedSales.length || 0}</p>
                             </div>
                         </div>
                     </div>
@@ -135,7 +135,7 @@ const totalValue = filteredStocks.reduce((total, stock) => {
                             </div>
                             <div>
                                 <p className="text-gray-400 text-sm">Total Value</p>
-                                <p className="text-white font-semibold text-lg">${totalValue}</p>
+                                <p className="text-white font-semibold text-lg">${0}</p>
                             </div>
                         </div>
                     </div>
@@ -147,7 +147,7 @@ const totalValue = filteredStocks.reduce((total, stock) => {
                             </div>
                             <div>
                                 <p className="text-gray-400 text-sm">Expired Stocks</p>
-                                <p className="text-white font-semibold text-lg">{expiredCount}</p>
+                                <p className="text-white font-semibold text-lg">{0}</p>
                             </div>
                         </div>
                     </div>
@@ -183,7 +183,7 @@ const totalValue = filteredStocks.reduce((total, stock) => {
                        
                         <div className="flex items-center gap-3 text-sm text-gray-400">
                             <Package className="w-4 h-4" />
-                            <span>{filteredStocks.length} Stocks found</span>
+                            <span>{filteredSales.length} Sales found</span>
                         </div>
                     </div>
                 </div>
@@ -194,47 +194,32 @@ const totalValue = filteredStocks.reduce((total, stock) => {
                             <thead>
                                 <tr className="border-b border-gray-700/50">
                                     {/* <th className="text-left p-6 text-gray-300 font-semibold">stock Name</th> */}
-                                     <th className="text-left p-6 text-gray-300 font-semibold">ID</th>
-                                    <th className="text-left p-6 text-gray-300 font-semibold  cursor-pointer hover:text-white " onClick={() => handleSort("createdAt")}>
-                                        <div className="flex items-center gap-2">
+                                     <th className="text-left p-6 text-gray-300 font-semibold">Stock-ID</th>
+                                    <th className="text-left p-6 text-gray-300 font-semibold  cursor-pointer hover:text-white " >
+                                        <div className="flex items-center gap-2" onClick={() => handleSort("createdAt")}>
 
-                                            Created At
+                                            Sold At
                                             <div className="flex flex-col">
                                                 <div className={`w-0 h-0 border-l-2 border-r-2 border-b-2 border-transparent border-b-gray-400 mb-0.5 ${sortBy === 'createdAt' && sortOrder === 'asc' ? 'border-b-blue-400' : ''}`}></div>
                                                 <div className={`w-0 h-0 border-l-2 border-r-2 border-t-2 border-transparent border-t-gray-400 ${sortBy === 'createdAt' && sortOrder === 'desc' ? 'border-t-blue-400' : ''}`}></div>
                                             </div>
                                         </div> </th>
                                    
-                                    <th className="text-left p-6 text-gray-300 font-semibold">Qty(Created)</th>
                                     <th className="text-left p-6 text-gray-300 font-semibold">Qty</th>
                                     <th className="text-left p-6 text-gray-300 font-semibold">Medicine</th>
                                     <th className="text-left p-6 text-gray-300 font-semibold">Price</th>
-                                    <th className="text-left p-6 text-gray-300 font-semibold cursor-pointer hover:text-white " onClick={() => handleSort("expiryDate")}>
-                                        <div className="flex items-center gap-2">
-
-                                            Expiry Date
-                                            <div className="flex flex-col">
-                                                <div className={`w-0 h-0 border-l-2 border-r-2 border-b-2 border-transparent border-b-gray-400 mb-0.5 ${sortBy === 'expiryDate' && sortOrder === 'asc' ? 'border-b-blue-400' : ''}`}></div>
-                                                <div className={`w-0 h-0 border-l-2 border-r-2 border-t-2 border-transparent border-t-gray-400 ${sortBy === 'expiryDate' && sortOrder === 'desc' ? 'border-t-blue-400' : ''}`}></div>
-                                            </div>
-                                        </div>
-                                    </th>
+                                
                                     <th className="text-center p-6 text-gray-300 font-semibold">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {sortedStocks.map((stock, i) => (
+                                {sortedSales.map((sale, i) => (
                                     <tr key={i} className="border-b border-gray-700/30 hover:bg-gray-700/20 transition-colors">
-                                        <td className="p-6 text-white font-medium">{stock._id}</td>
-                                        <td className="p-6 text-green-400 font-semibold">{formateDate(stock.createdAt)}</td>
-                                        <td className="p-6 text-white">{stock.qtyCopy}</td>
-                                        <td className="p-6 text-white">{stock.quantity}</td>
-                                        <td className="p-6 text-gray-300">{stock.medicine?.name?.toUpperCase()}</td>
-                                        <td className="p-6 text-white">{stock.totalPrice}</td>
-                                        <td className="p-6 text-white">
-
-                                            {formateDate(stock.expiryDate)}
-                                        </td>
+                                        <td className="p-6 text-white font-medium">{sale.stockId}</td>
+                                        <td className="p-6 text-green-400 font-semibold">{formateDate(sale.createdAt)}</td>
+                                        <td className="p-6 text-white">{sale.soldQuantity}</td>
+                                        <td className="p-6 text-gray-300">{sale.medicine?.name?.toUpperCase()}</td>
+                                        <td className="p-6 text-white">{sale.totalPrice}</td>
 
                                         <td className="p-6">
                                             <div className="flex items-center justify-center gap-2">
@@ -244,7 +229,7 @@ const totalValue = filteredStocks.reduce((total, stock) => {
                                                 <button className="p-2 text-gray-400 hover:text-yellow-400 hover:bg-yellow-500/10 rounded-lg">
                                                     <Edit className="w-4 h-4" />
                                                 </button>
-                                                <button onClick={() => handleDelete(stock._id)} className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg">
+                                                <button onClick={() => handleDelete(sale._id)} className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg">
                                                     <Trash2 className="w-4 h-4" />
                                                 </button>
                                             </div>
@@ -261,6 +246,6 @@ const totalValue = filteredStocks.reduce((total, stock) => {
     )
 }
 
-export default StocksTable
+export default SalesTable
 
 

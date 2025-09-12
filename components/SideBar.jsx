@@ -42,7 +42,7 @@ const router = useRouter()
             title: 'Sales',
             icon: TrendingUp,
             items: [
-                { name: 'Show Sales', href: '/sales' }
+                { name: 'Show Sales', href: '/dashboard/sales' }
             ]
         }
     ]
