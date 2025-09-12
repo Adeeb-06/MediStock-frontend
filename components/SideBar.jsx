@@ -34,8 +34,6 @@ const router = useRouter()
             title: 'Stock',
             icon: Package,
             items: [
-                { name: 'Create New Stock', href: '/dashboard/stock/newStock' },
-                { name: 'Sell Stock', href: '/dashboard/stock/sellStock' },
                 { name: 'Show Stocks', href: '/dashboard/stock' }
             ]
         },

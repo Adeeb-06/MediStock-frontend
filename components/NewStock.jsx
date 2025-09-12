@@ -2,16 +2,27 @@
 import { AppContent } from '@/app/context/AppContext'
 import axios from 'axios'
 import { Building2, Plus, Send, X } from 'lucide-react'
+import { useRouter  } from 'next/navigation'
 import React, { useContext, useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm ,useFieldArray } from 'react-hook-form'
 import { toast } from 'sonner'
 
 const NewStock = () => {
     const { medicinesData , getMedicines } = useContext(AppContent)
     const [stocks, setStocks] = useState([""])
     const [isLoading, setIsLoading] = useState(false);
-    const { register, handleSubmit, setError, reset, formState: { errors } } = useForm()
+    const { register, handleSubmit, setError, control, reset, formState: { errors } } = useForm({
+        defaultValues: {
+            stocks: [{ medicine: "", quantity: "", expiryDate: "" }]
+        }
+    })
+
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "stocks",
+    });
     const [medicine, setMedicine] = useState();
+    const router = useRouter()
 
     useEffect(() => {
         getMedicines()
@@ -38,6 +49,7 @@ const onsubmit = async(data) => {
         await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/stock/stock-create`, data, { withCredentials: true })
         toast.success("Stocks added successfully!");
         setStocks([""]); // reset
+        router.push('/dashboard/stock')
         // setIsLoading(false);
         
     } catch (error) {
@@ -65,8 +77,8 @@ const onsubmit = async(data) => {
         >
           {/* Company Inputs */}
           <div className="space-y-4">
-           {stocks.map((stock, index) => (
-  <div key={index} className="group">
+           {fields.map((stock, index) => (
+  <div key={stock.id} className="group">
     <div className="flex items-center gap-3">
       <div className="relative flex-1 flex flex-col gap-4">
         <select 
@@ -107,10 +119,10 @@ const onsubmit = async(data) => {
         )}  
       </div>
 
-      {index > 0 && (
+      {fields.length > 0 && (
        <button
          type="button"
-         onClick={() => handleRemove(index)}
+         onClick={() => remove(index)}
          className="flex items-center justify-center w-10 h-10 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 cursor-pointer rounded-xl text-red-400 hover:text-red-300 transition-all duration-200 group"
        >
          <X className="w-4 h-4" />
@@ -125,7 +137,7 @@ const onsubmit = async(data) => {
           {/* Add More Button */}
           <button
             type="button"
-            onClick={handleAdd}
+            onClick={() => append({ medicine: "", quantity: "", expiryDate: "" })}
             className="flex items-center justify-center gap-2 w-full py-3 px-4 bg-gray-700/50 hover:bg-gray-700/70 border cursor-pointer border-gray-600 hover:border-gray-500 rounded-xl text-gray-300 hover:text-white transition-all duration-200"
           >
             <Plus className="w-4 h-4" />
