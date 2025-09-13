@@ -68,8 +68,9 @@ const SellStock = () => {
             {/* Company Inputs */}
             <div className="space-y-4">
               {fields.map((stock, index) => {
-                const med = medicinesData?.medicines?.find(m => m._id === stocks[index]?.medicine);
-                const price = med ? med.price * Number(stocks[index]?.quantity || 0) : 0;
+                // // const med = medicinesData?.medicines?.find(m => m._id === stocks[index]?.medicine);
+
+                const price = 0;
                 return (
                   <div key={stock.id} className="group">
                     <div className="flex items-center gap-3">

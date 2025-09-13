@@ -36,7 +36,7 @@ const Layout = ({ children }) => {
   }
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen ">
       {/* Sidebar */}
       <aside className="fixed left-0 top-0 w-64 h-full bg-gray-900 border-r border-gray-800 shadow-xl z-10">
         <SideBar />

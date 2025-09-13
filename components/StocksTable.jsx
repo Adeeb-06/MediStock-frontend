@@ -208,6 +208,7 @@ const totalValue = filteredStocks.reduce((total, stock) => {
                                     <th className="text-left p-6 text-gray-300 font-semibold">Qty(Created)</th>
                                     <th className="text-left p-6 text-gray-300 font-semibold">Qty</th>
                                     <th className="text-left p-6 text-gray-300 font-semibold">Medicine</th>
+                                    <th className="text-left p-6 text-gray-300 font-semibold">Medicine-Price</th>
                                     <th className="text-left p-6 text-gray-300 font-semibold">Price</th>
                                     <th className="text-left p-6 text-gray-300 font-semibold cursor-pointer hover:text-white " onClick={() => handleSort("expiryDate")}>
                                         <div className="flex items-center gap-2">
@@ -219,7 +220,7 @@ const totalValue = filteredStocks.reduce((total, stock) => {
                                             </div>
                                         </div>
                                     </th>
-                                    <th className="text-center p-6 text-gray-300 font-semibold">Actions</th>
+                                    {/* <th className="text-center p-6 text-gray-300 font-semibold">Actions</th> */}
                                 </tr>
                             </thead>
                             <tbody>
@@ -230,13 +231,14 @@ const totalValue = filteredStocks.reduce((total, stock) => {
                                         <td className="p-6 text-white">{stock.qtyCopy}</td>
                                         <td className="p-6 text-white">{stock.quantity}</td>
                                         <td className="p-6 text-gray-300">{stock.medicine?.name?.toUpperCase()}</td>
+                                        <td className="p-6 text-gray-300">{stock.medicinePrice}</td>
                                         <td className="p-6 text-white">{stock.totalPrice}</td>
                                         <td className="p-6 text-white">
 
                                             {formateDate(stock.expiryDate)}
                                         </td>
 
-                                        <td className="p-6">
+                                        {/* <td className="p-6">
                                             <div className="flex items-center justify-center gap-2">
                                                 <button className="p-2 text-gray-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg">
                                                     <Eye className="w-4 h-4" />
@@ -248,7 +250,7 @@ const totalValue = filteredStocks.reduce((total, stock) => {
                                                     <Trash2 className="w-4 h-4" />
                                                 </button>
                                             </div>
-                                        </td>
+                                        </td> */}
                                     </tr>
                                 ))}
                             </tbody>

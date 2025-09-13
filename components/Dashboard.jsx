@@ -1,10 +1,12 @@
 import React, { useContext, useEffect , useState } from 'react'
-import { TrendingUp, Package, DollarSign, Target, AlertCircle } from 'lucide-react'
+
 import DashboardStats from './DashboardStats'
 import { AppContent } from '@/app/context/AppContext'
+import Chart from './Chart'
+import DashboardActionButtons from './DashboardActionButtons'
 
 const Dashboard = () => {
-    const { salesData, stocksData, getSales, getAllStocks } = useContext(AppContent)
+    const { salesData, stocksData, getSales, getAllStocks , startDate, endDate } = useContext(AppContent)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -17,46 +19,7 @@ const Dashboard = () => {
         fetchData()
     }, [])
     // console.log(salesData)
-    const totalSales = salesData?.reduce((total, sale) => {
-        return total + sale.totalPrice
-    }, 0)
-    const totalStocks = stocksData?.reduce((total, stock) => {
-        return total + stock.quantity
-    }, 0)
 
-    const expiredStocks = stocksData?.filter(stock => new Date(stock.expiryDate) < new Date())
-
-    const totalSpend = stocksData?.reduce((total, stock) => {
-        return total + stock.totalPrice
-    }, 0)
-
-    const stats = [
-        {
-            title: 'Total Sales',
-            value: ` $${totalSales}`,
-            icon: TrendingUp,
-            color: 'blue'
-        },
-        {
-            title: 'In Stock',
-            value: totalStocks,
-            icon: Package,
-            color: 'green'
-        },
-        {
-            title: 'Total Spend',
-            value: ` $${totalSpend}`,
-            icon: DollarSign,
-            color: 'orange'
-        },
-        {
-            title: 'Expired Stocks',
-            value: expiredStocks.length,
-            icon: AlertCircle,
-            color: 'red'
-        },
-
-    ]
 
     if (loading) {
         return (
@@ -93,7 +56,9 @@ const Dashboard = () => {
             <hr className='mb-4 border-gray-700/50' />
 
             {/* Stats Cards */}
-            <DashboardStats stats={stats} />
+            <DashboardStats  salesData={salesData} stocksData={stocksData} />
+            <Chart />
+            <DashboardActionButtons/>
         </div>
     )
 }

@@ -83,18 +83,7 @@ const CreateMedicine = () => {
                                     </div>
 
                                     {/* Price */}
-                                    <div className="space-y-2 flex-1">
-                                        <label className="flex items-center gap-2 text-sm font-medium text-gray-300">
-                                            <DollarSign className="w-4 h-4" />
-                                            Price
-                                        </label>
-                                        <input
-                                            type="number"
-                                            {...register(`medicines.${index}.price`, { required: {value: true, message: "Price is required"} })}
-                                            className="w-full bg-gray-700/50 border border-gray-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-200"
-                                            placeholder="0.00"
-                                        />
-                                    </div>
+                                    
 
                                     {/* Company */}
                                     <div className="space-y-2 flex-1">

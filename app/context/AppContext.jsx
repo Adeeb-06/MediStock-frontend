@@ -12,6 +12,8 @@ export const AppProvider = ({ children }) => {
     const [medicinesData, setMedicinesData] = useState([])
     const [stocksData, setStocksData] = useState([])
     const [salesData, setSalesData] = useState([])
+    const [startDate , setStartDate] = useState('')
+    const [endDate, setEndDate] = useState('')
 
     const isAuthenticated = async () => {
         try {
@@ -93,7 +95,11 @@ export const AppProvider = ({ children }) => {
         getAllStocks,
         stocksData,
         getSales,
-        salesData
+        salesData,
+        startDate,
+        setStartDate,
+        endDate,
+        setEndDate
     }
 
     return (

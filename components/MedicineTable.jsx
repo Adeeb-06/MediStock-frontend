@@ -109,12 +109,7 @@ const MedicineTable = () => {
                             <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
                                 <DollarSign className="w-5 h-5 text-green-400" />
                             </div>
-                            <div>
-                                <p className="text-gray-400 text-sm">Total Value</p>
-                                <p className="text-white font-semibold text-lg">
-                                    ${medicinesData?.medicines?.reduce((total, medicine) => total + (parseFloat(medicine.price) * medicine.stockNumber), 0).toFixed(2) || '0.00'}
-                                </p>
-                            </div>
+                           
                         </div>
                     </div>
                     <div className="bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-xl p-4">
@@ -190,19 +185,7 @@ const MedicineTable = () => {
                                                 </div>
                                             </div>
                                         </th>
-                                        <th 
-                                            className="text-left p-6 text-gray-300 font-semibold cursor-pointer hover:text-white transition-colors"
-                                            onClick={() => handleSort('price')}
-                                        >
-                                            <div className="flex items-center gap-2">
-                                                <DollarSign className="w-4 h-4" />
-                                                Price
-                                                <div className="flex flex-col">
-                                                    <div className={`w-0 h-0 border-l-2 border-r-2 border-b-2 border-transparent border-b-gray-400 mb-0.5 ${sortBy === 'price' && sortOrder === 'asc' ? 'border-b-blue-400' : ''}`}></div>
-                                                    <div className={`w-0 h-0 border-l-2 border-r-2 border-t-2 border-transparent border-t-gray-400 ${sortBy === 'price' && sortOrder === 'desc' ? 'border-t-blue-400' : ''}`}></div>
-                                                </div>
-                                            </div>
-                                        </th>
+                                       
                                         <th 
                                             className="text-left p-6 text-gray-300 font-semibold cursor-pointer hover:text-white transition-colors"
                                             onClick={() => handleSort('stockNumber')}
@@ -239,11 +222,7 @@ const MedicineTable = () => {
                                                         {medicine.name}
                                                     </div>
                                                 </td>
-                                                <td className="p-6">
-                                                    <div className="text-green-400 font-semibold">
-                                                        ${parseFloat(medicine.price).toFixed(2)}
-                                                    </div>
-                                                </td>
+                                               
                                                 <td className="p-6">
                                                     <div className="text-white font-medium">
                                                         {medicine.stockNumber}
