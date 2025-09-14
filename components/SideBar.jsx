@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
 const SideBar = () => {
-const {setIsLoggedIn} = useContext(AppContent)
+const {setIsLoggedIn , user} = useContext(AppContent)
 const router = useRouter()
     const menuGroups = [
         {
@@ -129,10 +129,11 @@ const router = useRouter()
                 <div className="flex items-center justify-between">
                     <div className="flex items-center">
                         <div className="w-8 h-8 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                            JD
+                            {user?.name?.[0]}
                         </div>
                         <div className="ml-3">
-                            <p className="text-sm font-medium text-white">John Doe</p>
+                            <p className="text-sm font-medium text-white">{user?.name}</p>
+                            <p className="text-xs text-gray-400">{user?.email}</p>
                             <p className="text-xs text-gray-400">Administrator</p>
                         </div>
                     </div>

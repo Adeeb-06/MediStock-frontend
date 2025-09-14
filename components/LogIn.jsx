@@ -1,13 +1,15 @@
 "use client"
 import axios from 'axios'
-import React from 'react'
+import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
+import { AppContent } from '@/app/context/AppContext'
 
 
 const LogIn = () => {
   const { register, handleSubmit, setError, formState: { errors } } = useForm()
+  const {setUserId } = useContext(AppContent)
 
   const router = useRouter()
   const onSubmit = async(data) => {

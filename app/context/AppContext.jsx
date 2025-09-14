@@ -1,6 +1,6 @@
 "use client"
 import axios from "axios";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 
 export const AppContent = createContext();
@@ -12,15 +12,16 @@ export const AppProvider = ({ children }) => {
     const [medicinesData, setMedicinesData] = useState([])
     const [stocksData, setStocksData] = useState([])
     const [salesData, setSalesData] = useState([])
-    const [startDate , setStartDate] = useState('')
+    const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
+    const [user, setUser] = useState(null)
 
     const isAuthenticated = async () => {
         try {
             const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/isAuthenticated`, { withCredentials: true })
-            // const data = await res.json()
-            // console.log(res)
+
             if (res.status === 200) {
+                setUser(res.data.user)
                 setIsLoggedIn(true)
             }
         } catch (error) {
@@ -53,12 +54,12 @@ export const AppProvider = ({ children }) => {
 
     const companyById = async (companyId) => {
         try {
-            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/company/company-by-id`, companyId , { withCredentials: true })
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/company/company-by-id`, companyId, { withCredentials: true })
             return res.data.name
         } catch (error) {
             console.log(error)
         }
-    } 
+    }
 
     const getAllStocks = async () => {
         try {
@@ -83,6 +84,11 @@ export const AppProvider = ({ children }) => {
         }
     }
 
+
+
+
+
+
     const value = {
         isLoggedIn,
         setIsLoggedIn,
@@ -99,7 +105,8 @@ export const AppProvider = ({ children }) => {
         startDate,
         setStartDate,
         endDate,
-        setEndDate
+        setEndDate,
+        user,
     }
 
     return (
