@@ -55,10 +55,14 @@ const Dashboard = () => {
             </div>
             <hr className='mb-4 border-gray-700/50' />
 
-            {/* Stats Cards */}
+            <div className='grid grid-row-1 sm:grid-row-2 lg:grid-row-4 gap-6'>
+
             <DashboardStats  salesData={salesData} stocksData={stocksData} />
-            <Chart />
             <DashboardActionButtons/>
+            <Chart />
+            </div>
+
+            {/* Stats Cards */}
         </div>
     )
 }

@@ -1,6 +1,6 @@
 "use client"
 import React, { useContext } from 'react'
-import { Pill, Package, TrendingUp, Home, LogOut } from 'lucide-react'
+import { Pill, Package, TrendingUp, Home, LogOut, Building2 } from 'lucide-react'
 import Link from 'next/link'
 import axios from 'axios'
 import { AppContent } from '@/app/context/AppContext'
@@ -72,7 +72,7 @@ const router = useRouter()
             </div>
 
             {/* Content */}
-            <div className="flex-1 overflow-y-auto py-4">
+            <div className="flex-1 text-xl overflow-y-auto py-4">
                 {/* Dashboard */}
                 <div className="px-4 mb-6">
                     <Link
@@ -83,39 +83,45 @@ const router = useRouter()
                         <span className="font-medium">Dashboard</span>
                     </Link>
                 </div>
+                <div className="px-4 mb-6">
+                    <Link
+                        href="/dashboard/medicines"
+                        className="flex items-center px-3 py-2 mb-1 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition-all duration-200 group"
+                    >
+                        <Pill className="w-5 h-5 mr-3 group-hover:text-blue-400 transition-colors" />
+                        <span className="font-medium">Medicines</span>
+                    </Link>
+                </div>
+                <div className="px-4 mb-6">
+                    <Link
+                        href="/dashboard/companies"
+                        className="flex items-center px-3 py-2 mb-1 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition-all duration-200 group"
+                    >
+                        <Building2 className="w-5 h-5 mr-3 group-hover:text-blue-400 transition-colors" />
+                        <span className="font-medium">Companies</span>
+                    </Link>
+                </div>
+                <div className="px-4 mb-6">
+                    <Link
+                        href="/dashboard/stock"
+                        className="flex items-center px-3 py-2 mb-1 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition-all duration-200 group"
+                    >
+                        <Package className="w-5 h-5 mr-3 group-hover:text-blue-400 transition-colors" />
+                        <span className="font-medium">Stocks</span>
+                    </Link>
+                </div>
+                <div className="px-4 mb-6">
+                    <Link
+                        href="/dashboard/sales"
+                        className="flex items-center px-3 py-2 mb-1 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition-all duration-200 group"
+                    >
+                        <TrendingUp className="w-5 h-5 mr-3 group-hover:text-blue-400 transition-colors" />
+                        <span className="font-medium">Sales</span>
+                    </Link>
+                </div>
 
                 {/* Menu Groups */}
-                {menuGroups.map((group) => (
-                    <div key={group.id} className="mb-4">
-                        {/* Group Divider with Title */}
-                        <div className="px-4 mb-3">
-                            <div className="flex items-center">
-                                <div className="flex-1 h-px bg-gray-800"></div>
-                                <div className="flex items-center px-3">
-                                    <group.icon className="w-4 h-4 mr-2 text-gray-500" />
-                                    <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                                        {group.title}
-                                    </span>
-                                </div>
-                                <div className="flex-1 h-px bg-gray-800"></div>
-                            </div>
-                        </div>
-
-                        {/* Group Items */}
-                        <div className="px-4 space-y-1">
-                            {group.items.map((item, index) => (
-                                <Link
-                                    key={index}
-                                    href={item.href}
-                                    className="flex items-center px-4 py-2.5 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition-all duration-200 group"
-                                >
-                                    <div className="w-2 h-2 bg-gray-600 rounded-full mr-3 group-hover:bg-blue-400 transition-colors"></div>
-                                    <span className="text-[14px] font-medium">{item.name}</span>
-                                </Link>
-                            ))}
-                        </div>
-                    </div>
-                ))}
+                
             </div>
 
             {/* Footer with User Info */}
