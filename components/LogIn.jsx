@@ -32,7 +32,7 @@ const LogIn = () => {
       <div className="min-h-screen flex items-center justify-center bg-zinc-900 px-4">
         <div className="w-full max-w-md bg-zinc-800 rounded-2xl shadow-lg p-8">
           <h1 className="text-2xl font-bold text-zinc-100 text-center mb-6">
-            Create Account
+            LogIn
           </h1>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -79,7 +79,7 @@ const LogIn = () => {
             //   disabled={isSubmitting}
               className="w-full bg-zinc-600 hover:bg-zinc-500 text-zinc-100 font-medium py-2 rounded-lg transition"
             >
-              Sign Up
+              Log In
             </button>
           </form>
 
