@@ -164,12 +164,12 @@ const CompaniesTable = () => {
                         </td>
                         <td className="p-6">
                             <div className="flex items-center justify-center gap-2">
+                              <Link href={`/dashboard/companies/update/${company._id}`}>
+                              
                               <button className="p-2 text-gray-400 hover:text-yellow-400 hover:bg-yellow-500/10 rounded-lg">
                                 <Edit className="w-4 h-4" />
                               </button>
-                              <button onClick={() => handleDelete(sale._id)} className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg">
-                                <Trash2 className="w-4 h-4" />
-                              </button>
+                              </Link>
                             </div>
                           </td>
                       </tr>

@@ -186,6 +186,13 @@ const filteredSales = salesData?.filter(sale => {
                 {/* Table */}
                 <div className="bg-gray-800/50 border border-gray-700/50 rounded-2xl overflow-hidden">
                     <div className="overflow-x-auto">
+                           {sortedSales.length === 0 ? (
+                                                <div className="text-center py-16">
+                                                    <AlertCircle className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+                                                    <h3 className="text-xl font-semibold text-gray-400 mb-2">No medicines found</h3>
+                                                    <p className="text-gray-500">Try adjusting your search criteria</p>
+                                                </div>
+                                            ) : (
                         <table className="w-full">
                             <thead>
                                 <tr className="border-b border-gray-700/50">
@@ -205,7 +212,7 @@ const filteredSales = salesData?.filter(sale => {
                                     <th className="text-left p-6 text-gray-300 font-semibold">Medicine</th>
                                     <th className="text-left p-6 text-gray-300 font-semibold">Price</th>
 
-                                    <th className="text-center p-6 text-gray-300 font-semibold">Actions</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -228,23 +235,12 @@ const filteredSales = salesData?.filter(sale => {
                                         <td className="p-6 text-gray-300">{sale.medicine?.name?.toUpperCase()}</td>
                                         <td className="p-6 text-white">{sale.totalPrice}</td>
 
-                                        <td className="p-6">
-                                            <div className="flex items-center justify-center gap-2">
-                                                <button className="p-2 text-gray-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg">
-                                                    <Eye className="w-4 h-4" />
-                                                </button>
-                                                <button className="p-2 text-gray-400 hover:text-yellow-400 hover:bg-yellow-500/10 rounded-lg">
-                                                    <Edit className="w-4 h-4" />
-                                                </button>
-                                                <button onClick={() => handleDelete(sale._id)} className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg">
-                                                    <Trash2 className="w-4 h-4" />
-                                                </button>
-                                            </div>
-                                        </td>
+                                        
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
+                                            )}
                     </div>
                 </div>
 

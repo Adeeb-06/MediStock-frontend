@@ -7,47 +7,72 @@ import { toast } from 'sonner'
 import { Pill, DollarSign, Building2, Plus, Loader2, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
-const CreateMedicine = () => {
+
+const UpdateMedicine = ({medicineId}) => {
+    const [medicineName , setMedicineName] = useState('')
+    const [companyName , setCompanyName] = useState('')
     const { register, handleSubmit, setError, reset, control , formState: { errors } } = useForm({
         defaultValues: {
-            medicines: [{ name: "", price: "", company: "" }]
+            medicines: [{ name: medicineName,  company: companyName }]
         },
         mode: "onChange"
     })
     const { companiesData, getCompanies } = useContext(AppContent)
-    const [medicine, setMedicine] = useState([""]);
+    const [medicine, setMedicine] = useState(null);
+
     const router = useRouter()
 
-    const { fields, append, remove } = useFieldArray({
-        control,
-        name: "medicines",
-    });
 
     useEffect(() => {
         getCompanies()
     }, [])
 
-    const onsubmit = async (data) => {
-    
-        console.log(data.medicines)
-        try {
-            const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/medicine/medicine-create`, data, { withCredentials: true })
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/medicine/medicine-by-id`, { medicineId }, { withCredentials: true })
+            if (res.status === 200) {
+            const med = res.data.medicine[0];
+            setMedicineName(med.name);
+            setCompanyName(med.company); // if you have company in medicine data
+            // console.log(med.company.name)
+            // Update form values
+            reset({
+                name: med.name,
+                company: med.company?._id 
+            });
+        }
+        }
+        fetchData()
+    },  [medicineId , reset])
 
-            if (res.status === 201) {
-                toast.success("Medicine created successfully")
-                router.push('/dashboard/medicines')
-                reset() // Reset form after successful submission
-            }
+    console.log(medicineName)
 
-        } catch (error) {
-            reset()
-            console.log(error)
-            onchange: () =>setError("apiError", { message: error.response?.data?.message || error.message })
-            toast.error(error.response?.data?.message || error.message)
-        } 
+   const onsubmit = async (data) => {
+    // include medicineId
+    const finalData = { ...data, medicineId };
 
+    console.log(finalData);
 
+    try {
+        const res = await axios.post(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/medicine/medicine-update`,
+            finalData,
+            { withCredentials: true }
+        );
+
+        if (res.status === 200) {
+            toast.success("Medicine updated successfully");
+            router.push('/dashboard/medicines');
+            reset(); // Reset form after successful submission
+        }
+
+    } catch (error) {
+        console.log(error);
+        setError("apiError", { message: error.response?.data?.message || error.message });
+        toast.error(error.response?.data?.message || error.message);
     }
+};
+
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6">
@@ -57,15 +82,15 @@ const CreateMedicine = () => {
                     <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl mb-4">
                         <Pill className="w-8 h-8 text-white" />
                     </div>
-                    <h1 className="text-3xl font-bold text-white mb-2">Create Medicine</h1>
-                    <p className="text-gray-400">Add a new medicine to your inventory</p>
+                    <h1 className="text-3xl font-bold text-white mb-2">Update Medicine</h1>
+                    <p className="text-gray-400">Update medicine details</p>
                 </div>
 
                 {/* Form Card */}
                 <div className="bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-3xl shadow-2xl p-8">
                     <form onSubmit={handleSubmit(onsubmit)} className="space-y-6">
-                        {fields.map((medicine, index) => (
-                            <div key={medicine.id} className="flex items-center  gap-4">
+                       
+                            <div  className="flex items-center  gap-4">
                                 {/* Input Fields */}
                                 <div className="flex-1 flex gap-4">
                                     {/* Medicine Name */}
@@ -76,7 +101,7 @@ const CreateMedicine = () => {
                                         </label>
                                         <input
                                             type="text"
-                                            {...register(`medicines.${index}.name`, { required: {value: true, message: "Medicine name is required"} })}
+                                            {...register(`name`, { required: {value: true, message: "Medicine name is required"} })}
                                             className="w-full bg-gray-700/50 border border-gray-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-200"
                                             placeholder="Enter medicine name..."
                                         />
@@ -92,7 +117,7 @@ const CreateMedicine = () => {
                                             Company
                                         </label>
                                         <select
-                                            {...register(`medicines.${index}.company`, { required: {value: true, message: "Company is required"} })}
+                                            {...register(`company`, { required: {value: true, message: "Company is required"} })}
                                             className="w-full bg-gray-700/50 border border-gray-600 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-200"
                                         >
                                             <option value="">Select a company...</option>
@@ -102,30 +127,10 @@ const CreateMedicine = () => {
                                         </select>
                                     </div>
                                 </div>
-
-                                {/* Remove Button */}
-                                {fields.length > 0 && (
-                                    <button
-                                        type="button"
-                                        onClick={() => remove(index)}
-                                        className="flex items-center justify-center w-10 h-10 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 rounded-xl text-red-400 hover:text-red-300 transition-all duration-200"
-                                    >
-                                        <X className="w-4 h-4" />
-                                    </button>
-                                )}
+                                
                             </div>
 
-                        ))}
-
-
-                        <button
-                            type="button"
-                            onClick={() => append({ name: "", price: "", company: "" })}
-                            className="flex items-center justify-center gap-2 w-full py-3 px-4 bg-gray-700/50 hover:bg-gray-700/70 border cursor-pointer border-gray-600 hover:border-gray-500 rounded-xl text-gray-300 hover:text-white transition-all duration-200"
-                        >
-                            <Plus className="w-4 h-4" />
-                            Create More
-                        </button>
+                       
 
 
                         {/* Submit Button */}
@@ -134,7 +139,7 @@ const CreateMedicine = () => {
                             className="flex items-center justify-center gap-2 w-full py-4 px-6 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl"
 
                         >
-                            Create Medicine
+                            Update Medicine
                            
                         </button>
 
@@ -151,4 +156,4 @@ const CreateMedicine = () => {
     )
 }
 
-export default CreateMedicine
+export default UpdateMedicine

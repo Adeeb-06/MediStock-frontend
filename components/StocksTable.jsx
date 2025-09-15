@@ -111,7 +111,7 @@ const totalValue = filteredStocks.reduce((total, stock) => {
 
                 {/* Header */}
                 <div className="text-center">
-                    <h1 className="text-3xl font-bold text-white mb-2">stock Inventory</h1>
+                    <h1 className="text-3xl font-bold text-white mb-2">Stock Inventory</h1>
                     <p className="text-gray-400">Manage and view all stocks in your system</p>
                 </div>
 

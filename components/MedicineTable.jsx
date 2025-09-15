@@ -251,15 +251,13 @@ const MedicineTable = () => {
                                                 </td>
                                                 <td className="p-6">
                                                     <div className="flex items-center justify-center gap-2">
-                                                        <button className="p-2 text-gray-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition-all duration-200">
-                                                            <Eye className="w-4 h-4" />
-                                                        </button>
-                                                        <button className="p-2 text-gray-400 hover:text-yellow-400 hover:bg-yellow-500/10 rounded-lg transition-all duration-200">
+                                                        
+                                                        <Link href={`/dashboard/medicines/update/${medicine._id}`}>
+                                                        <button className="p-2 cursor-pointer text-gray-400 hover:text-yellow-400 hover:bg-yellow-500/10 rounded-lg transition-all duration-200">
                                                             <Edit className="w-4 h-4" />
                                                         </button>
-                                                        <button className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all duration-200">
-                                                            <Trash2 className="w-4 h-4" />
-                                                        </button>
+                                                        </Link>
+                                                        
                                                     </div>
                                                 </td>
                                             </tr>
