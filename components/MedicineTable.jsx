@@ -1,7 +1,8 @@
 "use client"
 // import { AppContent } from '@/app/context/AppContent'
 import React, { useContext, useEffect, useState } from 'react'
-import { Search, Filter, Eye, Edit, Trash2, Package, DollarSign, Building2, Calendar, AlertCircle, Link, Plus } from 'lucide-react'
+import { Search, Filter, Eye, Edit, Trash2, Package, DollarSign, Building2, Calendar, AlertCircle, Plus } from 'lucide-react'
+import Link from 'next/link'
 import { AppContent } from '@/app/context/AppContext'
 
 
@@ -154,11 +155,11 @@ const MedicineTable = () => {
                             />
                         </div>
                         <div className=" flex-2 flex gap-3">
-                            <Link href={'/dashboard/companies/create'} >
+                            <Link href={'/dashboard/medicines/create-medicine'} >
                                 <button className=' bg-blue-300 hover:bg-blue-500/10 py-3 px-4 rounded-2xl gap-1 duration-100 cursor-pointer mt-2 text-black hover:text-white     flex items-center justify-center ' >
 
                                     <Plus className="w-4 h-4" />
-                                    Add Companies
+                                    Add Medicines
                                 </button>
                             </Link>
 
