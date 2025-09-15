@@ -3,10 +3,12 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
 import { Plus, X, Building2, Send } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const AddCompanies = () => {
   const [companies, setCompanies] = useState([""]);
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter()
 
   // handle change
   const handleChange = (index, value) => {
@@ -32,11 +34,14 @@ const AddCompanies = () => {
     setIsLoading(true);
     
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/company/company-create`, {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/company/company-create`, {
         name: companies.filter(company => company.trim() !== ""), // Filter out empty entries
       } , {withCredentials: true});
-      toast.success("Companies added successfully!");
-      setCompanies([""]); // reset
+      if (res.status === 201) {
+        toast.success("Companies added successfully!");
+        router.push('/dashboard/companies')
+        setCompanies([""]); // reset
+      }
     } catch (error) {
       console.error(error);
       toast.error("Something went wrong. Please try again.");

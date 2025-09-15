@@ -39,7 +39,7 @@ const SellStock = () => {
       const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/stock/stock-sell`, data, { withCredentials: true })
       if (res.status === 200) {
         toast.success("Medicine Sold");
-        router.push('/dashboard/stock')
+        router.push('/dashboard/sales')
         // reset
         // setIsLoading(false);
       }

@@ -1,13 +1,13 @@
 "use client"
 // import { AppContent } from '@/app/context/AppContent'
 import React, { useContext, useEffect, useState } from 'react'
-import { Search, Filter, Eye, Edit, Trash2, Package, DollarSign, Building2, Calendar, AlertCircle } from 'lucide-react'
+import { Search, Filter, Eye, Edit, Trash2, Package, DollarSign, Building2, Calendar, AlertCircle, Link, Plus } from 'lucide-react'
 import { AppContent } from '@/app/context/AppContext'
 
-  
+
 
 const MedicineTable = () => {
-    const { medicinesData, getMedicines , companyById } = useContext(AppContent)
+    const { medicinesData, getMedicines, companyById } = useContext(AppContent)
     const [searchTerm, setSearchTerm] = useState('')
     const [sortBy, setSortBy] = useState('name')
     const [sortOrder, setSortOrder] = useState('asc')
@@ -22,7 +22,7 @@ const MedicineTable = () => {
         fetchData()
     }, [])
 
-    
+
 
     // Filter and sort medicines
     const filteredMedicines = medicinesData?.medicines?.filter(medicine =>
@@ -33,18 +33,18 @@ const MedicineTable = () => {
     const sortedMedicines = [...filteredMedicines].sort((a, b) => {
         let aValue = a[sortBy]
         let bValue = b[sortBy]
-        
+
         if (sortBy === 'company') {
             aValue = a.company?.name || ''
             bValue = b.company?.name || ''
         }
-        
+
         if (typeof aValue === 'string') {
-            return sortOrder === 'asc' 
+            return sortOrder === 'asc'
                 ? aValue.localeCompare(bValue)
                 : bValue.localeCompare(aValue)
         }
-        
+
         return sortOrder === 'asc' ? aValue - bValue : bValue - aValue
     })
 
@@ -86,13 +86,13 @@ const MedicineTable = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6">
             <div className="max-w-7xl mx-auto space-y-6">
-                
+
                 {/* Header */}
                 <div className="text-center">
                     <h1 className="text-3xl font-bold text-white mb-2">Medicine Inventory</h1>
                     <p className="text-gray-400">Manage and view all medicines in your system</p>
                 </div>
-                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div className="bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-xl p-4">
                         <div className="flex items-center gap-3">
                             <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
@@ -109,7 +109,7 @@ const MedicineTable = () => {
                             <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
                                 <DollarSign className="w-5 h-5 text-green-400" />
                             </div>
-                           
+
                         </div>
                     </div>
                     <div className="bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-xl p-4">
@@ -153,6 +153,16 @@ const MedicineTable = () => {
                                 className="w-full bg-gray-700/50 border border-gray-600 rounded-xl pl-10 pr-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                             />
                         </div>
+                        <div className=" flex-2 flex gap-3">
+                            <Link href={'/dashboard/companies/create'} >
+                                <button className=' bg-blue-300 hover:bg-blue-500/10 py-3 px-4 rounded-2xl gap-1 duration-100 cursor-pointer mt-2 text-black hover:text-white     flex items-center justify-center ' >
+
+                                    <Plus className="w-4 h-4" />
+                                    Add Companies
+                                </button>
+                            </Link>
+
+                        </div>
                         <div className="flex items-center gap-3 text-sm text-gray-400">
                             <Package className="w-4 h-4" />
                             <span>{filteredMedicines.length} medicines found</span>
@@ -173,7 +183,7 @@ const MedicineTable = () => {
                             <table className="w-full">
                                 <thead>
                                     <tr className="border-b border-gray-700/50">
-                                        <th 
+                                        <th
                                             className="text-left p-6 text-gray-300 font-semibold cursor-pointer hover:text-white transition-colors group"
                                             onClick={() => handleSort('name')}
                                         >
@@ -185,8 +195,8 @@ const MedicineTable = () => {
                                                 </div>
                                             </div>
                                         </th>
-                                       
-                                        <th 
+
+                                        <th
                                             className="text-left p-6 text-gray-300 font-semibold cursor-pointer hover:text-white transition-colors"
                                             onClick={() => handleSort('stockNumber')}
                                         >
@@ -213,8 +223,8 @@ const MedicineTable = () => {
                                     {sortedMedicines.map((medicine, index) => {
                                         const stockStatus = getStockStatus(medicine.stockNumber)
                                         return (
-                                            <tr 
-                                                key={index} 
+                                            <tr
+                                                key={index}
                                                 className="border-b border-gray-700/30 hover:bg-gray-700/20 transition-colors group"
                                             >
                                                 <td className="p-6">
@@ -222,7 +232,7 @@ const MedicineTable = () => {
                                                         {medicine.name}
                                                     </div>
                                                 </td>
-                                               
+
                                                 <td className="p-6">
                                                     <div className="text-white font-medium">
                                                         {medicine.stockNumber}
@@ -230,7 +240,7 @@ const MedicineTable = () => {
                                                 </td>
                                                 <td className="p-6">
                                                     <div className="text-gray-300">
-                                                        {medicine.company?.name ||'N/A'}
+                                                        {medicine.company?.name || 'N/A'}
                                                     </div>
                                                 </td>
                                                 <td className="p-6">
@@ -261,7 +271,7 @@ const MedicineTable = () => {
                 </div>
 
                 {/* Footer Stats */}
-               
+
             </div>
         </div>
     )
