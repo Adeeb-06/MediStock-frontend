@@ -66,7 +66,7 @@ const router = useRouter()
             {/* Header */}
             <div className="p-6 border-b border-gray-800">
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                    MediStock
+                    PharmaTrack
                 </h1>
                 <p className="text-gray-400 text-sm mt-1">Pharmacy Management</p>
             </div>
