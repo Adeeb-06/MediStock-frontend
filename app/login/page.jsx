@@ -14,8 +14,7 @@ const LogInPage = () => {
 
     useEffect(() => {
         if(isLoggedIn) {
-            router.push('/')
-            console.log('logged in')
+            router.push('/dashboard')
         }
     }, [isLoggedIn])
     

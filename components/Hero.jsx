@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight, Shield, BarChart3, Package, Users, Zap } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Hero() {
 
@@ -30,15 +31,15 @@ export default function Hero() {
             </span>
           </div>
           <div className="hidden md:flex items-center space-x-8">
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">Features</a>
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">Pricing</a>
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">About</a>
+           <Link href={'/login'}>
+           
             <button 
             //   onClick={handleLogin}
-              className="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-lg font-medium transition-all duration-200 transform hover:scale-105"
+              className="px-6 py-2 bg-gradient-to-r cursor-pointer from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-lg font-medium transition-all duration-200 transform hover:scale-105"
             >
               Login
             </button>
+           </Link>
           </div>
         </div>
       </nav>
@@ -65,24 +66,25 @@ export default function Hero() {
           
           {/* Description */}
           <p className="text-xl lg:text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto">
-            Revolutionize your pharmacy operations with AI-powered inventory tracking, 
-            real-time analytics, and seamless prescription management. 
+            Revolutionize your pharmacy operations with inventory tracking, 
+            real-time analytics. 
             Experience the future of pharmaceutical retail.
           </p>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-8">
+            <Link href="/login">
+            
             <button 
             //   onClick={handleLogin}
-              className="group px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/25 flex items-center justify-center min-w-[200px]"
+
+              className="group px-8 py-3 bg-gradient-to-r cursor-pointer from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/25 flex items-center justify-center min-w-[200px]"
             >
               Access Dashboard
               <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform" />
             </button>
             
-            <button className="px-8 py-3 bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 min-w-[200px]">
-              Watch Demo
-            </button>
+            </Link>
           </div>
 
           {/* Stats */}

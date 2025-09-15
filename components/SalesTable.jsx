@@ -3,7 +3,7 @@ import { AppContent } from '@/app/context/AppContext'
 import React, { useContext, useEffect, useState } from 'react'
 import { Copy, Plus, Search } from 'lucide-react'
 import axios from 'axios'
-import { Eye, Edit, Trash2, Package, DollarSign, Building2, AlertCircle } from "lucide-react"
+import { Eye, Edit, Trash2, Package, DollarSign, Building2, Calendar, AlertCircle } from "lucide-react"
 import { toast } from 'sonner'
 import Link from 'next/link'
 
@@ -14,6 +14,8 @@ const SalesTable = () => {
     const [searchTerm, setSearchTerm] = useState('')
     const [expired, setExpired] = useState(0)
     const [isLoading, setIsLoading] = useState(true)
+    const [startDate, setStartDate] = useState('')
+    const [endDate, setEndDate] = useState('')
 
 
     useEffect(() => {
@@ -44,10 +46,17 @@ const SalesTable = () => {
         const options = { year: "numeric", month: "long", day: "numeric" };
         return dateObj.toLocaleDateString("en-US", options);
     };
+const filteredSales = salesData?.filter(sale => {
+    const saleDate = new Date(sale.createdAt).toISOString().split("T")[0]; // "2025-09-15"
+    const selectedDate = startDate ? new Date(startDate).toISOString().split("T")[0] : null;
 
-    const filteredSales = salesData?.filter(sale => {
-        return sale.medicine.name.toLowerCase().includes(searchTerm.toLowerCase())
-    }) || []
+    // Match medicine search + date filter
+    const matchesSearch = sale.medicine?.name?.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesDate = selectedDate ? saleDate === selectedDate : true;
+
+    return matchesSearch && matchesDate;
+}) || [];
+
 
 
 
@@ -73,6 +82,8 @@ const SalesTable = () => {
             setSortOrder("asc");
         }
     };
+
+    // console.log(formateDate(startDate))
     if (isLoading) {
         return (
             <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6">
@@ -99,7 +110,7 @@ const SalesTable = () => {
 
                 {/* Header */}
                 <div className="text-center">
-                    <h1 className="text-3xl font-bold text-white mb-2">stock Inventory</h1>
+                    <h1 className="text-3xl font-bold text-white mb-2">Stock Inventory</h1>
                     <p className="text-gray-400">Manage and view all stocks in your system</p>
                 </div>
 
@@ -111,7 +122,7 @@ const SalesTable = () => {
                                 <Package className="w-5 h-5 text-blue-400" />
                             </div>
                             <div>
-                                <p className="text-gray-400 text-sm">Total Stock</p>
+                                <p className="text-gray-400 text-sm">Total Sales</p>
                                 <p className="text-white font-semibold text-lg">{sortedSales.length || 0}</p>
                             </div>
                         </div>
@@ -123,22 +134,12 @@ const SalesTable = () => {
                             </div>
                             <div>
                                 <p className="text-gray-400 text-sm">Total Value</p>
-                                <p className="text-white font-semibold text-lg">${0}</p>
+                                <p className="text-white font-semibold text-lg">${sortedSales.reduce((total, sale) => total + (sale.totalPrice || 0), 0)}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-gray-800/50 rounded-xl p-4 border border-gray-700/50">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center">
-                                <AlertCircle className="w-5 h-5 text-red-400" />
-                            </div>
-                            <div>
-                                <p className="text-gray-400 text-sm">Expired Stocks</p>
-                                <p className="text-white font-semibold text-lg">{0}</p>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
 
                 <div className="bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-6">
@@ -154,20 +155,27 @@ const SalesTable = () => {
                             />
                         </div>
                         <div className=" flex-2 flex gap-3">
-                            <Link href={'/dashboard/stock/newStock'} >
-                                <button className=' bg-blue-300 hover:bg-blue-500/10 py-3 px-4 rounded-2xl gap-1 duration-100 cursor-pointer mt-2 text-black hover:text-white     flex items-center justify-center ' >
-
-                                    <Plus className="w-4 h-4" />
-                                    Add Stock
-                                </button>
-                            </Link>
                             <Link href={'/dashboard/stock/sellStock'} >
                                 <button className=' bg-green-300 hover:bg-green-500/10 py-3 px-4 rounded-2xl gap-1 duration-100 cursor-pointer mt-2 text-black hover:text-white     flex items-center justify-center ' >
                                     <Plus className="w-4 h-4" />
-                                    Sell Stock
+                                    Sell Medicine
                                 </button>
                             </Link>
                         </div>
+                         <div className="relative flex-3 max-w-[40%]">
+                                <div className="relative">
+                                    <input
+                                        type="date"
+                                        value={startDate}
+                                        onChange={(e) => setStartDate(e.target.value)}
+                                        className="w-full bg-gray-800/70 border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-200 cursor-pointer"
+                                        style={{ colorScheme: "dark" }}
+                                    />
+                                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                                        <Calendar className="w-4 h-4 text-gray-400 group-hover:text-gray-300 transition-colors" />
+                                    </div>
+                                </div>
+                            </div>
 
                         <div className="flex items-center gap-3 text-sm text-gray-400">
                             <Package className="w-4 h-4" />
