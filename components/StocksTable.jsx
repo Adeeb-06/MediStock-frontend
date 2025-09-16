@@ -12,7 +12,7 @@ const StocksTable = () => {
     const [sortBy, setSortBy] = React.useState("createdAt");
     const [sortOrder, setSortOrder] = React.useState("asc");
     const [searchTerm, setSearchTerm] = useState('')
-    const [expired , setExpired] = useState(0)
+    const [expired, setExpired] = useState(0)
     const [isLoading, setIsLoading] = useState(true)
 
 
@@ -27,7 +27,7 @@ const StocksTable = () => {
 
     const handleDelete = async (stockId) => {
         try {
-            await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/stock/stock-delete`, { withCredentials: true ,data: { stockId } })
+            await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/stock/stock-delete`, { withCredentials: true, data: { stockId } })
             toast.success("Stock deleted successfully!");
             await getAllStocks()
         } catch (error) {
@@ -37,7 +37,7 @@ const StocksTable = () => {
     }
 
     console.log(stocksData)
-   
+
 
     const formateDate = (date) => {
         const dateObj = new Date(date);
@@ -47,18 +47,18 @@ const StocksTable = () => {
 
     const filteredStocks = stocksData?.filter(stock => {
         return stock.medicine.name.toLowerCase().includes(searchTerm.toLowerCase()) || stock._id.toLowerCase().includes(searchTerm.toLowerCase())
-    })  || []
-const expiredCount = filteredStocks.reduce((count, stock) => {
-  const isExpired = new Date(stock.expiryDate) < new Date();
-  const hasStock = stock.quantity > 0;
-  return count + (isExpired && hasStock ? 1 : 0);
-}, 0);
+    }) || []
+    const expiredCount = filteredStocks.reduce((count, stock) => {
+        const isExpired = new Date(stock.expiryDate) < new Date();
+        const hasStock = stock.quantity > 0;
+        return count + (isExpired && hasStock ? 1 : 0);
+    }, 0);
 
 
 
-const totalValue = filteredStocks.reduce((total, stock) => {
-  return total + (Number(stock.totalPrice) || 0);
-}, 0);
+    const totalValue = filteredStocks.reduce((total, stock) => {
+        return total + (Number(stock.totalPrice) || 0);
+    }, 0);
 
     console.log(expired)
 
@@ -85,7 +85,7 @@ const totalValue = filteredStocks.reduce((total, stock) => {
             setSortOrder("asc");
         }
     };
-     if (isLoading) {
+    if (isLoading) {
         return (
             <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6">
                 <div className="max-w-7xl mx-auto">
@@ -124,7 +124,7 @@ const totalValue = filteredStocks.reduce((total, stock) => {
                             </div>
                             <div>
                                 <p className="text-gray-400 text-sm">Total Stock</p>
-                                <p className="text-white font-semibold text-lg">{ sortedStocks.length || 0}</p>
+                                <p className="text-white font-semibold text-lg">{sortedStocks.length || 0}</p>
                             </div>
                         </div>
                     </div>
@@ -139,7 +139,7 @@ const totalValue = filteredStocks.reduce((total, stock) => {
                             </div>
                         </div>
                     </div>
-                   
+
                     <div className="bg-gray-800/50 rounded-xl p-4 border border-gray-700/50">
                         <div className="flex items-center gap-3">
                             <div className="w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center">
@@ -166,21 +166,21 @@ const totalValue = filteredStocks.reduce((total, stock) => {
                             />
                         </div>
                         <div className=" flex-2 flex gap-3">
-                        <Link href={'/dashboard/stock/newStock'} >
-                        <button className=' bg-blue-300 hover:bg-blue-500/10 py-3 px-4 rounded-2xl gap-1 duration-100 cursor-pointer mt-2 text-black hover:text-white     flex items-center justify-center ' >
+                            <Link href={'/dashboard/stock/newStock'} >
+                                <button className=' bg-blue-300 hover:bg-blue-500/10 py-3 px-4 rounded-2xl gap-1 duration-100 cursor-pointer mt-2 text-black hover:text-white     flex items-center justify-center ' >
 
-                            <Plus className="w-4 h-4" />
-                            Add Stock
-                        </button>
-                        </Link>
-                        <Link href={'/dashboard/stock/sellStock'} >
-                        <button className=' bg-green-300 hover:bg-green-500/10 py-3 px-4 rounded-2xl gap-1 duration-100 cursor-pointer mt-2 text-black hover:text-white     flex items-center justify-center ' >
-                            <Plus className="w-4 h-4" />
-                            Sell Stock
-                        </button>
-                        </Link>
+                                    <Plus className="w-4 h-4" />
+                                    Add Stock
+                                </button>
+                            </Link>
+                            <Link href={'/dashboard/stock/sellStock'} >
+                                <button className=' bg-green-300 hover:bg-green-500/10 py-3 px-4 rounded-2xl gap-1 duration-100 cursor-pointer mt-2 text-black hover:text-white     flex items-center justify-center ' >
+                                    <Plus className="w-4 h-4" />
+                                    Sell Stock
+                                </button>
+                            </Link>
                         </div>
-                       
+
                         <div className="flex items-center gap-3 text-sm text-gray-400">
                             <Package className="w-4 h-4" />
                             <span>{filteredStocks.length} Stocks found</span>
@@ -194,7 +194,7 @@ const totalValue = filteredStocks.reduce((total, stock) => {
                             <thead>
                                 <tr className="border-b border-gray-700/50">
                                     {/* <th className="text-left p-6 text-gray-300 font-semibold">stock Name</th> */}
-                                     <th className="text-left p-6 text-gray-300 font-semibold">ID</th>
+                                    <th className="text-left p-6 text-gray-300 font-semibold">ID</th>
                                     <th className="text-left p-6 text-gray-300 font-semibold  cursor-pointer hover:text-white " onClick={() => handleSort("createdAt")}>
                                         <div className="flex items-center gap-2">
 
@@ -204,7 +204,7 @@ const totalValue = filteredStocks.reduce((total, stock) => {
                                                 <div className={`w-0 h-0 border-l-2 border-r-2 border-t-2 border-transparent border-t-gray-400 ${sortBy === 'createdAt' && sortOrder === 'desc' ? 'border-t-blue-400' : ''}`}></div>
                                             </div>
                                         </div> </th>
-                                   
+
                                     <th className="text-left p-6 text-gray-300 font-semibold">Qty(Created)</th>
                                     <th className="text-left p-6 text-gray-300 font-semibold">Qty</th>
                                     <th className="text-left p-6 text-gray-300 font-semibold">Medicine</th>
@@ -224,36 +224,30 @@ const totalValue = filteredStocks.reduce((total, stock) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {sortedStocks.map((stock, i) => (
-                                    <tr key={i} className="border-b border-gray-700/30 hover:bg-gray-700/20 transition-colors">
-                                        <td className="p-6 text-white font-medium">{stock._id}</td>
-                                        <td className="p-6 text-green-400 font-semibold">{formateDate(stock.createdAt)}</td>
-                                        <td className="p-6 text-white">{stock.qtyCopy}</td>
-                                        <td className="p-6 text-white">{stock.quantity}</td>
-                                        <td className="p-6 text-gray-300">{stock.medicine?.name?.toUpperCase()}</td>
-                                        <td className="p-6 text-gray-300">{stock.medicinePrice}</td>
-                                        <td className="p-6 text-white">{stock.totalPrice}</td>
-                                        <td className="p-6 text-white">
+                                {sortedStocks.map((stock, i) => {
+                                    const isExpired = new Date(stock.expiryDate) < new Date()
 
-                                            {formateDate(stock.expiryDate)}
-                                        </td>
-
-                                        {/* <td className="p-6">
-                                            <div className="flex items-center justify-center gap-2">
-                                                <button className="p-2 text-gray-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg">
-                                                    <Eye className="w-4 h-4" />
-                                                </button>
-                                                <button className="p-2 text-gray-400 hover:text-yellow-400 hover:bg-yellow-500/10 rounded-lg">
-                                                    <Edit className="w-4 h-4" />
-                                                </button>
-                                                <button onClick={() => handleDelete(stock._id)} className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg">
-                                                    <Trash2 className="w-4 h-4" />
-                                                </button>
-                                            </div>
-                                        </td> */}
-                                    </tr>
-                                ))}
+                                    return (
+                                        <tr
+                                            key={i}
+                                            className={`border-b border-gray-700/30 hover:bg-gray-700/20 transition-colors 
+          ${isExpired ? "bg-red-600/20" : ""}`}
+                                        >
+                                            <td className="p-6 text-white font-medium">{stock._id}</td>
+                                            <td className="p-6 text-green-400 font-semibold">{formateDate(stock.createdAt)}</td>
+                                            <td className="p-6 text-white">{stock.qtyCopy}</td>
+                                            <td className="p-6 text-white">{stock.quantity}</td>
+                                            <td className="p-6 text-gray-300">{stock.medicine?.name?.toUpperCase()}</td>
+                                            <td className="p-6 text-gray-300">{stock.medicinePrice}</td>
+                                            <td className="p-6 text-white">{stock.totalPrice}</td>
+                                            <td className={`p-6 ${isExpired ? "text-red-400 font-bold" : "text-white"}`}>
+                                                {formateDate(stock.expiryDate)}
+                                            </td>
+                                        </tr>
+                                    )
+                                })}
                             </tbody>
+
                         </table>
                     </div>
                 </div>
