@@ -76,9 +76,9 @@ const SideBar = () => {
 
             {/* Sidebar */}
             <div className={`
-                sidebar relative top-0 left-0 h-full w-64 bg-gradient-to-b from-gray-900 via-gray-900 to-gray-800 
-                text-white flex flex-col z-50  duration-300 ease-in
-                ${isOpen ? 'flex' : 'hidden'}
+                sidebar fixed top-0 left-0 h-full w-64 bg-gradient-to-b from-gray-900 via-gray-900 to-gray-800 
+                text-white flex flex-col z-50  duration-300 
+                ${isOpen ? 'translate-x-0' : '-translate-x-full'}
                 shadow-2xl backdrop-blur-xl border-r border-gray-700/50
             `}>
                 {/* Animated Background Pattern */}
