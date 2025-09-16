@@ -38,12 +38,12 @@ const Layout = ({ children }) => {
   return (
     <div className="flex h-screen ">
       {/* Sidebar */}
-      <aside className="fixed left-0 top-0 w-64 h-full bg-gray-900 border-r border-gray-800 shadow-xl z-10">
+      {/* <aside className="fixed left-0 top-0 w-64 h-full bg-gray-900 border-r border-gray-800 shadow-xl z-10"> */}
         <SideBar />
-      </aside>
+      {/* </aside> */}
 
       {/* Main Content */}
-      <main className="ml-64 flex-1 bg-gradient-to-br from-gray-50 to-gray-100 h-full  ">
+      <main className=" flex-1 duration-200 bg-gradient-to-br from-gray-50 to-gray-100 h-full  ">
         {children}
       </main>
     </div>

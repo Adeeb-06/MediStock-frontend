@@ -15,6 +15,8 @@ export const AppProvider = ({ children }) => {
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
     const [user, setUser] = useState(null)
+    const [isOpen, setIsOpen] = useState(false) // Start closed on mobile
+    const [isMobile, setIsMobile] = useState(false)
 
     const isAuthenticated = async () => {
         try {
@@ -107,6 +109,10 @@ export const AppProvider = ({ children }) => {
         endDate,
         setEndDate,
         user,
+        isOpen,
+        setIsOpen,
+        isMobile,
+        setIsMobile,
     }
 
     return (
