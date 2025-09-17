@@ -121,7 +121,7 @@ const ExpiredStocks = () => {
                     <h1 className="text-3xl font-bold text-white mb-2">Expired Stocks</h1>
                     {/* <p className="text-gray-400">Manage and view all stocks in your system</p> */}
                 </div>
-   
+
 
                 <div className="bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-6">
                     <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
@@ -135,7 +135,7 @@ const ExpiredStocks = () => {
                                 className="w-full bg-gray-700/50 border border-gray-600 rounded-xl pl-10 pr-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                             />
                         </div>
-                       
+
                         <div className="flex items-center gap-3 text-sm text-gray-400">
                             <Package className="w-4 h-4" />
                             <span>{filteredStocks.length} Stocks found</span>
@@ -145,92 +145,101 @@ const ExpiredStocks = () => {
                 {/* Table */}
                 <div className="bg-gray-800/50 border border-gray-700/50 rounded-2xl overflow-hidden">
                     <div className="overflow-x-auto">
-                        <table className="w-full  table-auto min-w-[1000px]">
-                            <thead>
-                                <tr className="border-b border-gray-700/50">
-                                    {/* <th className="text-left p-6 text-gray-300 font-semibold">stock Name</th> */}
-                                    <th className="text-left p-6 text-gray-300 font-semibold">ID</th>
-                                    <th className="text-left p-6 text-gray-300 font-semibold  cursor-pointer hover:text-white " onClick={() => handleSort("createdAt")}>
-                                        <div className="flex items-center gap-2">
+                        {sortedSales.length === 0 ? (
+                            <div className="text-center py-16">
+                                <AlertCircle className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+                                <h3 className="text-xl font-semibold text-gray-400 mb-2">No Expired Stock  found</h3>
+                                <p className="text-gray-500">Try adjusting your search criteria</p>
+                            </div>
+                        ) : (
 
-                                            Created At
-                                            <div className="flex flex-col">
-                                                <div className={`w-0 h-0 border-l-2 border-r-2 border-b-2 border-transparent border-b-gray-400 mb-0.5 ${sortBy === 'createdAt' && sortOrder === 'asc' ? 'border-b-blue-400' : ''}`}></div>
-                                                <div className={`w-0 h-0 border-l-2 border-r-2 border-t-2 border-transparent border-t-gray-400 ${sortBy === 'createdAt' && sortOrder === 'desc' ? 'border-t-blue-400' : ''}`}></div>
-                                            </div>
-                                        </div> </th>
+                            <table className="w-full  table-auto min-w-[1000px]">
+                                <thead>
+                                    <tr className="border-b border-gray-700/50">
+                                        {/* <th className="text-left p-6 text-gray-300 font-semibold">stock Name</th> */}
+                                        <th className="text-left p-6 text-gray-300 font-semibold">ID</th>
+                                        <th className="text-left p-6 text-gray-300 font-semibold  cursor-pointer hover:text-white " onClick={() => handleSort("createdAt")}>
+                                            <div className="flex items-center gap-2">
 
-                                    <th className="text-left p-6 text-gray-300 font-semibold">Qty(Created)</th>
-                                    <th className="text-left p-6 text-gray-300 font-semibold">Qty(Curr)</th>
-                                    <th className="text-left p-6 text-gray-300 font-semibold">Medicine</th>
-                                    <th className="text-left p-6 text-gray-300 font-semibold">Expired Action</th>
-                                    <th className="text-left p-6 text-gray-300 font-semibold">Expired Action Date</th>
-
-
-                                    <th className="text-left p-6 text-gray-300 font-semibold cursor-pointer hover:text-white " onClick={() => handleSort("expiryDate")}>
-                                        <div className="flex items-center gap-2">
-
-                                            Expiry Date
-                                            <div className="flex flex-col">
-                                                <div className={`w-0 h-0 border-l-2 border-r-2 border-b-2 border-transparent border-b-gray-400 mb-0.5 ${sortBy === 'expiryDate' && sortOrder === 'asc' ? 'border-b-blue-400' : ''}`}></div>
-                                                <div className={`w-0 h-0 border-l-2 border-r-2 border-t-2 border-transparent border-t-gray-400 ${sortBy === 'expiryDate' && sortOrder === 'desc' ? 'border-t-blue-400' : ''}`}></div>
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <th className="text-left p-6 text-gray-300 font-semibold">Actions</th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {sortedStocks.map((stock, i) => {
-                                    const isExpired = new Date(stock.expiryDate) < new Date()
-
-                                    return (
-                                        <tr
-                                            key={i}
-                                            className={`border-b border-gray-700/30 hover:bg-gray-700/20 transition-colors }`}
-                                        >
-                                            <div className='flex items-center '>
-                                            <td className="p-6  text-white font-medium max-w-[150px] truncate">
-                                                {stock._id}
-                                            </td>
-                                                 <button
-                                                onClick={() => navigator.clipboard.writeText(stock._id).then(() => toast.success("Stock ID copied to clipboard"))}
-                                                className="text-gray-400 cursor-pointer hover:text-white transition-colors"
-                                                title="Copy to clipboard"
-                                            >
-                                                {/* You can use an icon instead of text */}
-                                                <Copy className="w-4 h-4" />
-                                            </button>
-                                            
-                                            </div>
-
-                                            <td className="p-6 text-green-400 font-semibold">{formateDate(stock.createdAt)}</td>
-                                            <td className="p-6 text-white">{stock.qtyCopy}</td>
-                                            <td className="p-6 text-white">{stock.quantity}</td>
-                                         <td className="p-6 text-gray-300 max-w-[200px] truncate">{stock.medicine?.name}</td>
-                                            <td className="p-6 text-gray-300">{stock.expiredAction.toUpperCase()}</td>
-                                            <td className="p-6 text-gray-300">{formateDate(stock.expiredActionDate)}</td>
-
-                                            <td className={`p-6 ${isExpired ? "text-red-400 font-bold" : "text-white"}`}>
-                                                {formateDate(stock.expiryDate)}
-                                            </td>
-                                            <td className="p-6">
-                                                <div className="flex items-center justify-center gap-2">
-                                                    <Link href={`/dashboard/stock/expired-stocks/update/${stock._id}`}>
-
-                                                        <button className="p-2 text-gray-400 hover:text-yellow-400 hover:bg-yellow-500/10 rounded-lg">
-                                                            <Edit className="w-4 h-4" />
-                                                        </button>
-                                                    </Link>
+                                                Created At
+                                                <div className="flex flex-col">
+                                                    <div className={`w-0 h-0 border-l-2 border-r-2 border-b-2 border-transparent border-b-gray-400 mb-0.5 ${sortBy === 'createdAt' && sortOrder === 'asc' ? 'border-b-blue-400' : ''}`}></div>
+                                                    <div className={`w-0 h-0 border-l-2 border-r-2 border-t-2 border-transparent border-t-gray-400 ${sortBy === 'createdAt' && sortOrder === 'desc' ? 'border-t-blue-400' : ''}`}></div>
                                                 </div>
-                                            </td>
-                                        </tr>
-                                    )
-                                })}
-                            </tbody>
+                                            </div> </th>
 
-                        </table>
+                                        <th className="text-left p-6 text-gray-300 font-semibold">Qty(Created)</th>
+                                        <th className="text-left p-6 text-gray-300 font-semibold">Qty(Curr)</th>
+                                        <th className="text-left p-6 text-gray-300 font-semibold">Medicine</th>
+                                        <th className="text-left p-6 text-gray-300 font-semibold">Expired Action</th>
+                                        <th className="text-left p-6 text-gray-300 font-semibold">Expired Action Date</th>
+
+
+                                        <th className="text-left p-6 text-gray-300 font-semibold cursor-pointer hover:text-white " onClick={() => handleSort("expiryDate")}>
+                                            <div className="flex items-center gap-2">
+
+                                                Expiry Date
+                                                <div className="flex flex-col">
+                                                    <div className={`w-0 h-0 border-l-2 border-r-2 border-b-2 border-transparent border-b-gray-400 mb-0.5 ${sortBy === 'expiryDate' && sortOrder === 'asc' ? 'border-b-blue-400' : ''}`}></div>
+                                                    <div className={`w-0 h-0 border-l-2 border-r-2 border-t-2 border-transparent border-t-gray-400 ${sortBy === 'expiryDate' && sortOrder === 'desc' ? 'border-t-blue-400' : ''}`}></div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th className="text-left p-6 text-gray-300 font-semibold">Actions</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {sortedStocks.map((stock, i) => {
+                                        const isExpired = new Date(stock.expiryDate) < new Date()
+
+                                        return (
+                                            <tr
+                                                key={i}
+                                                className={`border-b border-gray-700/30 hover:bg-gray-700/20 transition-colors }`}
+                                            >
+                                                <div className='flex items-center '>
+                                                    <td className="p-6  text-white font-medium max-w-[150px] truncate">
+                                                        {stock._id}
+                                                    </td>
+                                                    <button
+                                                        onClick={() => navigator.clipboard.writeText(stock._id).then(() => toast.success("Stock ID copied to clipboard"))}
+                                                        className="text-gray-400 cursor-pointer hover:text-white transition-colors"
+                                                        title="Copy to clipboard"
+                                                    >
+                                                        {/* You can use an icon instead of text */}
+                                                        <Copy className="w-4 h-4" />
+                                                    </button>
+
+                                                </div>
+
+                                                <td className="p-6 text-green-400 font-semibold">{formateDate(stock.createdAt)}</td>
+                                                <td className="p-6 text-white">{stock.qtyCopy}</td>
+                                                <td className="p-6 text-white">{stock.quantity}</td>
+                                                <td className="p-6 text-gray-300 max-w-[200px] truncate">{stock.medicine?.name}</td>
+                                                <td className="p-6 text-gray-300">{stock.expiredAction.toUpperCase()}</td>
+                                                <td className="p-6 text-gray-300">{formateDate(stock.expiredActionDate)}</td>
+
+                                                <td className={`p-6 ${isExpired ? "text-red-400 font-bold" : "text-white"}`}>
+                                                    {formateDate(stock.expiryDate)}
+                                                </td>
+                                                <td className="p-6">
+                                                    <div className="flex items-center justify-center gap-2">
+                                                        <Link href={`/dashboard/stock/expired-stocks/update/${stock._id}`}>
+
+                                                            <button className="p-2 text-gray-400 hover:text-yellow-400 hover:bg-yellow-500/10 rounded-lg">
+                                                                <Edit className="w-4 h-4" />
+                                                            </button>
+                                                        </Link>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+
+                            </table>
+                        )}
                     </div>
                 </div>
 

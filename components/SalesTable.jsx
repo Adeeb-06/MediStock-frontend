@@ -60,7 +60,8 @@ const SalesTable = () => {
 
 
     useEffect(() => { 
-        setTopSeller(medicinesData?.medicines?.filter(medicine => medicine.soldQuantity > 0)[0]?.name)
+        const topSeller = medicinesData?.medicines?.sort((a, b) => b.soldQuantity - a.soldQuantity)[0]?.name
+        setTopSeller(topSeller)
     },  [medicinesData])
 
 
@@ -208,7 +209,7 @@ const SalesTable = () => {
                         {sortedSales.length === 0 ? (
                             <div className="text-center py-16">
                                 <AlertCircle className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-                                <h3 className="text-xl font-semibold text-gray-400 mb-2">No medicines found</h3>
+                                <h3 className="text-xl font-semibold text-gray-400 mb-2">No Sales found</h3>
                                 <p className="text-gray-500">Try adjusting your search criteria</p>
                             </div>
                         ) : (

@@ -198,6 +198,13 @@ const StocksTable = () => {
                 {/* Table */}
                 <div className="bg-gray-800/50 border border-gray-700/50 rounded-2xl overflow-hidden">
                     <div className="overflow-x-auto">
+                        {sortedSales.length === 0 ? (
+                                                    <div className="text-center py-16">
+                                                        <AlertCircle className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+                                                        <h3 className="text-xl font-semibold text-gray-400 mb-2">No Stocks found</h3>
+                                                        <p className="text-gray-500">Try adjusting your search criteria</p>
+                                                    </div>
+                                                ) : (
                         <table className="w-full">
                             <thead>
                                 <tr className="border-b border-gray-700/50">
@@ -274,6 +281,7 @@ const StocksTable = () => {
                             </tbody>
 
                         </table>
+                                                )}
                     </div>
                 </div>
 

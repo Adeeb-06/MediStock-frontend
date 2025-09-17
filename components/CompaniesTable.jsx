@@ -166,7 +166,7 @@ const CompaniesTable = () => {
                             <div className="flex items-center justify-center gap-2">
                               <Link href={`/dashboard/companies/update/${company._id}`}>
                               
-                              <button className="p-2 text-gray-400 hover:text-yellow-400 hover:bg-yellow-500/10 rounded-lg">
+                              <button className="p-2 text-gray-400 cursor-pointer hover:text-yellow-400 hover:bg-yellow-500/10 rounded-lg">
                                 <Edit className="w-4 h-4" />
                               </button>
                               </Link>

@@ -179,7 +179,7 @@ const DashboardStats = ({ salesData, stocksData }) => {
                         <div className="flex items-end">
                             <button
                                 onClick={() => handleApply(startDate, endDate)}
-                                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 group"
+                                className="flex cursor-pointer items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 group"
                             >
                                 <Filter className="w-4 h-4 group-hover:rotate-12 transition-transform duration-200" />
                                 Apply Filter

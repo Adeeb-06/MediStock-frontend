@@ -87,8 +87,7 @@ const onsubmit = async(data) => {
 
         <input
           type="number"
-          step="0.01"
-          min="0"
+    
           {...register(`stocks.${index}.medicinePrice`, { required: "Price is required",
     min: { value: 1, message: "Quantity must be at least 1" } })}
           className="w-full bg-gray-700/50 border border-gray-600 rounded-xl px-4 py-3 text-white"
@@ -99,12 +98,11 @@ const onsubmit = async(data) => {
         )}
         <input
           type="number"
-          step="0.01"
-          min="0"
+  
           {...register(`stocks.${index}.costPrice`, { required: "Cost Price is required",
     min: { value: 1, message: "Quantity must be at least 1" } })}
           className="w-full bg-gray-700/50 border border-gray-600 rounded-xl px-4 py-3 text-white"
-          placeholder="Medicine Price"
+          placeholder="Medicine Cost"
         />
         {errors.stocks?.[index]?.costPrice?.message && (
           <p className="text-red-500 text-xs">{errors.stocks?.[index]?.price?.message}</p>

@@ -125,7 +125,7 @@ const SignUp = () => {
             <button
               type="submit"
               // disabled={isSubmitting}
-              className="w-full bg-zinc-600 hover:bg-zinc-500 text-zinc-100 font-medium py-2 rounded-lg transition"
+              className="w-full bg-zinc-600 cursor-pointer hover:bg-zinc-500 text-zinc-100 font-medium py-2 rounded-lg transition"
             >
               Sign Up
             </button>

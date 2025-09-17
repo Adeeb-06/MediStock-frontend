@@ -131,7 +131,7 @@ const CreateMedicine = () => {
                         {/* Submit Button */}
                         <button
                             type="submit"
-                            className="flex items-center justify-center gap-2 w-full py-4 px-6 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl"
+                            className="flex items-center cursor-pointer justify-center gap-2 w-full py-4 px-6 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl"
 
                         >
                             Create Medicine

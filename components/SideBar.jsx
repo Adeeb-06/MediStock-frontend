@@ -164,7 +164,7 @@ const SideBar = () => {
                         {/* Enhanced Logout Button */}
                         <button 
                             onClick={logout} 
-                            className="group p-3 rounded-xl text-gray-400 hover:text-white hover:bg-gradient-to-br hover:from-red-600/20 hover:to-pink-600/20 transition-all duration-300 hover:scale-105 border border-transparent hover:border-red-500/30"
+                            className="group p-3 cursor-pointer rounded-xl text-gray-400 hover:text-white hover:bg-gradient-to-br hover:from-red-600/20 hover:to-pink-600/20 transition-all duration-300 hover:scale-105 border border-transparent hover:border-red-500/30"
                             title="Logout"
                         >
                             <LogOut className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />

@@ -87,7 +87,7 @@ const onsubmit = async(data) => {
           min="0"
           {...register("action", { required: "action is required",})}
           className="w-full bg-gray-700/50 border border-gray-600 rounded-xl px-4 py-3 text-white"
-          placeholder="return | disposed | pending"
+          placeholder="returned | disposed | pending"
         />
         {errors.expiredAction?.message && (
           <p className="text-red-500 text-xs">{errors.expiredAction?.message}</p>
