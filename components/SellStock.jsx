@@ -17,12 +17,41 @@ const SellStock = () => {
     }
   })
 
+
   const router = useRouter()
 
   const { fields, append, remove } = useFieldArray({
     control,
     name: "stocks",
   });
+
+  const [prices, setPrices] = useState(0); // store medicineId -> price
+
+  // Fetch FIFO price when medicine changes
+  const handleMedicineChange = async (medicineId, index) => {
+    if (!medicineId) return;
+
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/stock/stock-by-medicine`,
+        { medicineId },
+        { withCredentials: true }
+      );
+
+      if (res.status === 200) {
+        const fifoStock = res.data.stock;
+        console.log(fifoStock.medicinePrice);
+        setPrices((prev) => ({
+          ...prev,
+          [index]: fifoStock.medicinePrice, // store price per row
+        }));
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("No valid stock available");
+    }
+  };
+
 
   useEffect(() => {
     getMedicines()
@@ -68,9 +97,10 @@ const SellStock = () => {
             {/* Company Inputs */}
             <div className="space-y-4">
               {fields.map((stock, index) => {
-                // // const med = medicinesData?.medicines?.find(m => m._id === stocks[index]?.medicine);
+                const quantity = stocks[index]?.quantity || 0;
+                const price = prices[index] || 0;
+                const total = (quantity * price).toFixed(2);
 
-                const price = 0;
                 return (
                   <div key={stock.id} className="group">
                     <div className="flex items-center gap-3">
@@ -78,6 +108,7 @@ const SellStock = () => {
                         {/* Medicine select */}
                         <select
                           {...register(`stocks.${index}.medicine`, { required: "Select a medicine" })}
+                          onChange={(e) => handleMedicineChange(e.target.value, index)}
                           className="w-full bg-gray-700/50 border border-gray-600 rounded-xl px-4 py-3 text-white"
                         >
                           <option value="">Select a medicine...</option>
@@ -86,10 +117,10 @@ const SellStock = () => {
                           ))}
                         </select>
 
-                        {/* Quantity input */}
+                        {/* Quantity */}
                         <input
                           type="number"
-                          step="0.01"
+                          step="1"
                           min="0"
                           {...register(`stocks.${index}.quantity`, {
                             required: "Quantity is required",
@@ -100,8 +131,8 @@ const SellStock = () => {
                         />
 
                         {/* Total Price */}
-                        <span className="text-white px-2 py-1 bg-gray-600 rounded-xl flex items-center">
-                          ${price.toFixed(2)}
+                        <span className="text-white px-3 py-2 bg-gray-600 rounded-xl flex items-center">
+                          ${total}
                         </span>
                       </div>
                       {fields.length > 0 && (
@@ -114,8 +145,10 @@ const SellStock = () => {
                         </button>
                       )}
                     </div>
-                  </div>)
+                  </div>
+                );
               })}
+
 
 
 

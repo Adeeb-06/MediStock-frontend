@@ -209,7 +209,8 @@ const StocksTable = () => {
                                     <th className="text-left p-6 text-gray-300 font-semibold">Qty</th>
                                     <th className="text-left p-6 text-gray-300 font-semibold">Medicine</th>
                                     <th className="text-left p-6 text-gray-300 font-semibold">Medicine-Price</th>
-                                    <th className="text-left p-6 text-gray-300 font-semibold">Price</th>
+                                    <th className="text-left p-6 text-gray-300 font-semibold">Cost</th>
+                                    <th className="text-left p-6 text-gray-300 font-semibold">Total Cost</th>
                                     <th className="text-left p-6 text-gray-300 font-semibold cursor-pointer hover:text-white " onClick={() => handleSort("expiryDate")}>
                                         <div className="flex items-center gap-2">
 
@@ -239,6 +240,7 @@ const StocksTable = () => {
                                             <td className="p-6 text-white">{stock.quantity}</td>
                                             <td className="p-6 text-gray-300">{stock.medicine?.name?.toUpperCase()}</td>
                                             <td className="p-6 text-gray-300">{stock.medicinePrice}</td>
+                                            <td className="p-6 text-gray-300">{stock.costPrice}</td>
                                             <td className="p-6 text-white">{stock.totalPrice}</td>
                                             <td className={`p-6 ${isExpired ? "text-red-400 font-bold" : "text-white"}`}>
                                                 {formateDate(stock.expiryDate)}

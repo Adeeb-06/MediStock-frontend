@@ -49,7 +49,7 @@ const Layout = ({ children }) => {
   {/* Toggle Button (Top Right) */}
   <button
     onClick={() => setIsOpen(!isOpen)}
-    className={`flex items-center justify-center fixed top-4 right-4 
+    className={`flex items-center justify-center fixed top-4 right-5 
       p-2 w-10 h-10 cursor-pointer rounded-xl 
       bg-gradient-to-br from-blue-600 to-purple-600 
       text-white shadow-lg hover:shadow-xl 

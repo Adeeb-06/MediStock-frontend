@@ -105,14 +105,7 @@ const MedicineTable = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-xl p-4">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-                                <DollarSign className="w-5 h-5 text-green-400" />
-                            </div>
-
-                        </div>
-                    </div>
+                    
                     <div className="bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-xl p-4">
                         <div className="flex items-center gap-3">
                             <div className="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center">
@@ -121,7 +114,7 @@ const MedicineTable = () => {
                             <div>
                                 <p className="text-gray-400 text-sm">Low Stock Items</p>
                                 <p className="text-white font-semibold text-lg">
-                                    {medicinesData?.medicines?.filter(m => m.stockNumber < 10 && m.stockNumber > 5).length || 0}
+                                    {medicinesData?.medicines?.filter(m => m.stockNumber < 10 && m.stockNumber > 1).length || 0}
                                 </p>
                             </div>
                         </div>
@@ -223,6 +216,7 @@ const MedicineTable = () => {
                                 <tbody>
                                     {sortedMedicines.map((medicine, index) => {
                                         const stockStatus = getStockStatus(medicine.stockNumber)
+                                        
                                         return (
                                             <tr
                                                 key={index}
