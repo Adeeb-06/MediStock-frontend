@@ -1,13 +1,13 @@
 "use client"
 import { AppContent } from '@/app/context/AppContext'
 import React, { useContext, useEffect, useState } from 'react'
-import { Copy, Plus, Search } from 'lucide-react'
+import { ArrowLeft, Copy, Plus, Search } from 'lucide-react'
 import axios from 'axios'
 import { Eye, Edit, Trash2, Package, DollarSign, Building2, AlertCircle } from "lucide-react"
 import { toast } from 'sonner'
 import Link from 'next/link'
 
-const StocksTable = () => {
+const ExpiredStocks = () => {
     const { stocksData, getAllStocks } = useContext(AppContent)
     const [sortBy, setSortBy] = React.useState("createdAt");
     const [sortOrder, setSortOrder] = React.useState("asc");
@@ -25,16 +25,6 @@ const StocksTable = () => {
         fetchData()
     }, [])
 
-    const handleDelete = async (stockId) => {
-        try {
-            await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/stock/stock-delete`, { withCredentials: true, data: { stockId } })
-            toast.success("Stock deleted successfully!");
-            await getAllStocks()
-        } catch (error) {
-            console.log(error)
-            toast.error(error.response.data.message);
-        }
-    }
 
     console.log(stocksData)
 
@@ -45,16 +35,22 @@ const StocksTable = () => {
         return dateObj.toLocaleDateString("en-US", options);
     };
 
-    const filteredStocks = stocksData?.filter(stock => {
-        return stock.medicine.name.toLowerCase().includes(searchTerm.toLowerCase()) || stock._id.toLowerCase().includes(searchTerm.toLowerCase())
+    const expiredStocks = stocksData?.filter(stock => {
+        return stock.expiredAction === "pending" || stock.expiredAction === "returned" || stock.expiredAction === "disposed"
     }) || []
+
+    const filteredStocks = expiredStocks.filter(stock => {
+        return stock.medicine.name.toLowerCase().includes(searchTerm.toLowerCase()) || stock._id.toLowerCase().includes(searchTerm.toLowerCase()) || stock.expiredAction.toLowerCase().includes(searchTerm.toLowerCase())
+    }) || [];
+
+
     const expiredCount = filteredStocks.reduce((count, stock) => {
         const isExpired = new Date(stock.expiryDate) < new Date();
         const hasStock = stock.quantity > 0;
         return count + (isExpired && hasStock ? 1 : 0);
     }, 0);
 
-    
+
 
 
 
@@ -111,49 +107,21 @@ const StocksTable = () => {
         <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6">
             <div className="max-w-7xl mx-auto space-y-6">
 
+                <div>
+                    <Link href={'/dashboard/stock'} >
+                        <button className="bg-blue-300 hover:bg-blue-500/10 py-3 px-4 rounded-2xl gap-1 duration-100 cursor-pointer mt-2 text-black hover:text-white     flex items-center justify-center " >
+                            <ArrowLeft className="w-4 h-4" />
+                            Go Back
+                        </button>
+                    </Link>
+                </div>
+
                 {/* Header */}
                 <div className="text-center">
-                    <h1 className="text-3xl font-bold text-white mb-2">Stock Inventory</h1>
-                    <p className="text-gray-400">Manage and view all stocks in your system</p>
+                    <h1 className="text-3xl font-bold text-white mb-2">Expired Stocks</h1>
+                    {/* <p className="text-gray-400">Manage and view all stocks in your system</p> */}
                 </div>
-
-                {/* Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div className="bg-gray-800/50 rounded-xl p-4 border border-gray-700/50">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                                <Package className="w-5 h-5 text-blue-400" />
-                            </div>
-                            <div>
-                                <p className="text-gray-400 text-sm">Total Stock</p>
-                                <p className="text-white font-semibold text-lg">{sortedStocks.length || 0}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="bg-gray-800/50 rounded-xl p-4 border border-gray-700/50">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-                                <DollarSign className="w-5 h-5 text-green-400" />
-                            </div>
-                            <div>
-                                <p className="text-gray-400 text-sm">Total Spend</p>
-                                <p className="text-white font-semibold text-lg">${totalValue}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="bg-gray-800/50 rounded-xl p-4 border border-gray-700/50">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center">
-                                <AlertCircle className="w-5 h-5 text-red-400" />
-                            </div>
-                            <div>
-                                <p className="text-gray-400 text-sm">Expired Stocks</p>
-                                <p className="text-white font-semibold text-lg">{expiredCount}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+   
 
                 <div className="bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-6">
                     <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
@@ -167,28 +135,7 @@ const StocksTable = () => {
                                 className="w-full bg-gray-700/50 border border-gray-600 rounded-xl pl-10 pr-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                             />
                         </div>
-                        <div className=" flex-2 flex gap-3">
-                            <Link href={'/dashboard/stock/newStock'} >
-                                <button className=' bg-blue-300 hover:bg-blue-500/10 py-3 px-4 rounded-2xl gap-1 duration-100 cursor-pointer mt-2 text-black hover:text-white     flex items-center justify-center ' >
-
-                                    <Plus className="w-4 h-4" />
-                                    Add Stock
-                                </button>
-                            </Link>
-                            <Link href={'/dashboard/stock/sellStock'} >
-                                <button className=' bg-green-300 hover:bg-green-500/10 py-3 px-4 rounded-2xl gap-1 duration-100 cursor-pointer mt-2 text-black hover:text-white     flex items-center justify-center ' >
-                                    <Plus className="w-4 h-4" />
-                                    Sell Stock
-                                </button>
-                            </Link>
-                            <Link href={'/dashboard/stock/expired-stocks'} >
-                                <button className=' bg-red-300 hover:bg-red-500/10 py-3 px-4 rounded-2xl gap-1 duration-100 cursor-pointer mt-2 text-black hover:text-white     flex items-center justify-center ' >
-                                    <AlertCircle className="w-4 h-4" />
-                                    Expired Stocks
-                                </button>
-                            </Link>
-                        </div>
-
+                       
                         <div className="flex items-center gap-3 text-sm text-gray-400">
                             <Package className="w-4 h-4" />
                             <span>{filteredStocks.length} Stocks found</span>
@@ -198,7 +145,7 @@ const StocksTable = () => {
                 {/* Table */}
                 <div className="bg-gray-800/50 border border-gray-700/50 rounded-2xl overflow-hidden">
                     <div className="overflow-x-auto">
-                        <table className="w-full">
+                        <table className="w-full  table-auto min-w-[1000px]">
                             <thead>
                                 <tr className="border-b border-gray-700/50">
                                     {/* <th className="text-left p-6 text-gray-300 font-semibold">stock Name</th> */}
@@ -214,11 +161,12 @@ const StocksTable = () => {
                                         </div> </th>
 
                                     <th className="text-left p-6 text-gray-300 font-semibold">Qty(Created)</th>
-                                    <th className="text-left p-6 text-gray-300 font-semibold">Qty</th>
+                                    <th className="text-left p-6 text-gray-300 font-semibold">Qty(Curr)</th>
                                     <th className="text-left p-6 text-gray-300 font-semibold">Medicine</th>
-                                    <th className="text-left p-6 text-gray-300 font-semibold">Medicine-Price</th>
-                                    <th className="text-left p-6 text-gray-300 font-semibold">Cost</th>
-                                    <th className="text-left p-6 text-gray-300 font-semibold">Total Cost</th>
+                                    <th className="text-left p-6 text-gray-300 font-semibold">Expired Action</th>
+                                    <th className="text-left p-6 text-gray-300 font-semibold">Expired Action Date</th>
+
+
                                     <th className="text-left p-6 text-gray-300 font-semibold cursor-pointer hover:text-white " onClick={() => handleSort("expiryDate")}>
                                         <div className="flex items-center gap-2">
 
@@ -229,7 +177,8 @@ const StocksTable = () => {
                                             </div>
                                         </div>
                                     </th>
-                                    {/* <th className="text-center p-6 text-gray-300 font-semibold">Actions</th> */}
+                                    <th className="text-left p-6 text-gray-300 font-semibold">Actions</th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -239,10 +188,8 @@ const StocksTable = () => {
                                     return (
                                         <tr
                                             key={i}
-                                            className={`border-b border-gray-700/30 hover:bg-gray-700/20 transition-colors 
-          ${isExpired ? "bg-red-600/20" : ""}`}
+                                            className={`border-b border-gray-700/30 hover:bg-gray-700/20 transition-colors }`}
                                         >
-                                           
                                             <div className='flex items-center '>
                                             <td className="p-6  text-white font-medium max-w-[150px] truncate">
                                                 {stock._id}
@@ -257,15 +204,26 @@ const StocksTable = () => {
                                             </button>
                                             
                                             </div>
+
                                             <td className="p-6 text-green-400 font-semibold">{formateDate(stock.createdAt)}</td>
                                             <td className="p-6 text-white">{stock.qtyCopy}</td>
                                             <td className="p-6 text-white">{stock.quantity}</td>
-                                            <td className="p-6 text-gray-300">{stock.medicine?.name?.toUpperCase()}</td>
-                                            <td className="p-6 text-gray-300">{stock.medicinePrice}</td>
-                                            <td className="p-6 text-gray-300">{stock.costPrice}</td>
-                                            <td className="p-6 text-white">{stock.totalPrice}</td>
+                                         <td className="p-6 text-gray-300 max-w-[200px] truncate">{stock.medicine?.name}</td>
+                                            <td className="p-6 text-gray-300">{stock.expiredAction.toUpperCase()}</td>
+                                            <td className="p-6 text-gray-300">{formateDate(stock.expiredActionDate)}</td>
+
                                             <td className={`p-6 ${isExpired ? "text-red-400 font-bold" : "text-white"}`}>
                                                 {formateDate(stock.expiryDate)}
+                                            </td>
+                                            <td className="p-6">
+                                                <div className="flex items-center justify-center gap-2">
+                                                    <Link href={`/dashboard/stock/expired-stocks/update/${stock._id}`}>
+
+                                                        <button className="p-2 text-gray-400 hover:text-yellow-400 hover:bg-yellow-500/10 rounded-lg">
+                                                            <Edit className="w-4 h-4" />
+                                                        </button>
+                                                    </Link>
+                                                </div>
                                             </td>
                                         </tr>
                                     )
@@ -281,6 +239,6 @@ const StocksTable = () => {
     )
 }
 
-export default StocksTable
+export default ExpiredStocks
 
 
