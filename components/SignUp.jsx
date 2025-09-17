@@ -17,7 +17,7 @@ const SignUp = () => {
         router.push('/')
       }
     if(res.success === true) {
-      router.push('/')
+      router.push('/dashboard')
     }
     } catch (error) {
       

@@ -8,20 +8,21 @@ import { toast } from 'sonner'
 import Link from 'next/link'
 
 const SalesTable = () => {
-    const { salesData, getSales } = useContext(AppContent)
+    const { salesData, getSales, getMedicines, medicinesData } = useContext(AppContent)
     const [sortBy, setSortBy] = React.useState("createdAt");
     const [sortOrder, setSortOrder] = React.useState("asc");
     const [searchTerm, setSearchTerm] = useState('')
     const [expired, setExpired] = useState(0)
     const [isLoading, setIsLoading] = useState(true)
     const [startDate, setStartDate] = useState('')
-    const [endDate, setEndDate] = useState('')
+   const [topSeller, setTopSeller] = useState('')
 
 
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true)
             await getSales()
+            await getMedicines()
             setIsLoading(false)
         }
         fetchData()
@@ -46,16 +47,22 @@ const SalesTable = () => {
         const options = { year: "numeric", month: "long", day: "numeric" };
         return dateObj.toLocaleDateString("en-US", options);
     };
-const filteredSales = salesData?.filter(sale => {
-    const saleDate = new Date(sale.createdAt).toISOString().split("T")[0]; // "2025-09-15"
-    const selectedDate = startDate ? new Date(startDate).toISOString().split("T")[0] : null;
+    const filteredSales = salesData?.filter(sale => {
+        const saleDate = new Date(sale.createdAt).toISOString().split("T")[0]; // "2025-09-15"
+        const selectedDate = startDate ? new Date(startDate).toISOString().split("T")[0] : null;
 
-    // Match medicine search + date filter
-    const matchesSearch = sale.medicine?.name?.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesDate = selectedDate ? saleDate === selectedDate : true;
+        // Match medicine search + date filter
+        const matchesSearch = sale.medicine?.name?.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesDate = selectedDate ? saleDate === selectedDate : true;
 
-    return matchesSearch && matchesDate;
-}) || [];
+        return matchesSearch && matchesDate;
+    }) || [];
+
+
+    useEffect(() => { 
+        setTopSeller(medicinesData?.medicines?.filter(medicine => medicine.soldQuantity > 0)[0]?.name)
+    },  [medicinesData])
+
 
 
 
@@ -110,8 +117,8 @@ const filteredSales = salesData?.filter(sale => {
 
                 {/* Header */}
                 <div className="text-center">
-                    <h1 className="text-3xl font-bold text-white mb-2">Stock Inventory</h1>
-                    <p className="text-gray-400">Manage and view all stocks in your system</p>
+                    <h1 className="text-3xl font-bold text-white mb-2">Sales Inventory</h1>
+                    <p className="text-gray-400">Manage and view all sales in your system</p>
                 </div>
 
                 {/* Stats Cards */}
@@ -122,7 +129,7 @@ const filteredSales = salesData?.filter(sale => {
                                 <Package className="w-5 h-5 text-blue-400" />
                             </div>
                             <div>
-                                <p className="text-gray-400 text-sm">Total Sales</p>
+                                <p className="text-gray-400 text-sm">Total Purchase</p>
                                 <p className="text-white font-semibold text-lg">{sortedSales.length || 0}</p>
                             </div>
                         </div>
@@ -133,13 +140,25 @@ const filteredSales = salesData?.filter(sale => {
                                 <DollarSign className="w-5 h-5 text-green-400" />
                             </div>
                             <div>
-                                <p className="text-gray-400 text-sm">Total Value</p>
+                                <p className="text-gray-400 text-sm">Total Sales </p>
                                 <p className="text-white font-semibold text-lg">${sortedSales.reduce((total, sale) => total + (sale.totalPrice || 0), 0)}</p>
                             </div>
                         </div>
                     </div>
+                    <div className="bg-gray-800/50 rounded-xl p-4 border border-gray-700/50">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
+                                {/* <DollarSign className="w-5 h-5 text-green-400" /> */}
+                                <Building2 className="w-5 h-5 text-green-400" />
+                            </div>
+                            <div>
+                                <p className="text-gray-400 text-sm">Top Selling Medicine</p>
+                                <p className="text-white font-semibold text-lg">{topSeller}</p>
+                            </div>
+                        </div>
+                    </div>
 
-                    
+
                 </div>
 
                 <div className="bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-6">
@@ -162,20 +181,20 @@ const filteredSales = salesData?.filter(sale => {
                                 </button>
                             </Link>
                         </div>
-                         <div className="relative flex-3 max-w-[40%]">
-                                <div className="relative">
-                                    <input
-                                        type="date"
-                                        value={startDate}
-                                        onChange={(e) => setStartDate(e.target.value)}
-                                        className="w-full bg-gray-800/70 border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-200 cursor-pointer"
-                                        style={{ colorScheme: "dark" }}
-                                    />
-                                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                                        <Calendar className="w-4 h-4 text-gray-400 group-hover:text-gray-300 transition-colors" />
-                                    </div>
+                        <div className="relative flex-3 max-w-[40%]">
+                            <div className="relative">
+                                <input
+                                    type="date"
+                                    value={startDate}
+                                    onChange={(e) => setStartDate(e.target.value)}
+                                    className="w-full bg-gray-800/70 border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-200 cursor-pointer"
+                                    style={{ colorScheme: "dark" }}
+                                />
+                                <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                                    <Calendar className="w-4 h-4 text-gray-400 group-hover:text-gray-300 transition-colors" />
                                 </div>
                             </div>
+                        </div>
 
                         <div className="flex items-center gap-3 text-sm text-gray-400">
                             <Package className="w-4 h-4" />
@@ -186,61 +205,61 @@ const filteredSales = salesData?.filter(sale => {
                 {/* Table */}
                 <div className="bg-gray-800/50 border border-gray-700/50 rounded-2xl overflow-hidden">
                     <div className="overflow-x-auto">
-                           {sortedSales.length === 0 ? (
-                                                <div className="text-center py-16">
-                                                    <AlertCircle className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-                                                    <h3 className="text-xl font-semibold text-gray-400 mb-2">No medicines found</h3>
-                                                    <p className="text-gray-500">Try adjusting your search criteria</p>
+                        {sortedSales.length === 0 ? (
+                            <div className="text-center py-16">
+                                <AlertCircle className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+                                <h3 className="text-xl font-semibold text-gray-400 mb-2">No medicines found</h3>
+                                <p className="text-gray-500">Try adjusting your search criteria</p>
+                            </div>
+                        ) : (
+                            <table className="w-full">
+                                <thead>
+                                    <tr className="border-b border-gray-700/50">
+                                        {/* <th className="text-left p-6 text-gray-300 font-semibold">stock Name</th> */}
+                                        <th className="text-left p-6 text-gray-300 font-semibold">Stock-ID</th>
+                                        <th className="text-left p-6 text-gray-300 font-semibold  cursor-pointer hover:text-white " >
+                                            <div className="flex items-center gap-2" onClick={() => handleSort("createdAt")}>
+
+                                                Sold At
+                                                <div className="flex flex-col">
+                                                    <div className={`w-0 h-0 border-l-2 border-r-2 border-b-2 border-transparent border-b-gray-400 mb-0.5 ${sortBy === 'createdAt' && sortOrder === 'asc' ? 'border-b-blue-400' : ''}`}></div>
+                                                    <div className={`w-0 h-0 border-l-2 border-r-2 border-t-2 border-transparent border-t-gray-400 ${sortBy === 'createdAt' && sortOrder === 'desc' ? 'border-t-blue-400' : ''}`}></div>
                                                 </div>
-                                            ) : (
-                        <table className="w-full">
-                            <thead>
-                                <tr className="border-b border-gray-700/50">
-                                    {/* <th className="text-left p-6 text-gray-300 font-semibold">stock Name</th> */}
-                                    <th className="text-left p-6 text-gray-300 font-semibold">Stock-ID</th>
-                                    <th className="text-left p-6 text-gray-300 font-semibold  cursor-pointer hover:text-white " >
-                                        <div className="flex items-center gap-2" onClick={() => handleSort("createdAt")}>
+                                            </div> </th>
 
-                                            Sold At
-                                            <div className="flex flex-col">
-                                                <div className={`w-0 h-0 border-l-2 border-r-2 border-b-2 border-transparent border-b-gray-400 mb-0.5 ${sortBy === 'createdAt' && sortOrder === 'asc' ? 'border-b-blue-400' : ''}`}></div>
-                                                <div className={`w-0 h-0 border-l-2 border-r-2 border-t-2 border-transparent border-t-gray-400 ${sortBy === 'createdAt' && sortOrder === 'desc' ? 'border-t-blue-400' : ''}`}></div>
-                                            </div>
-                                        </div> </th>
+                                        <th className="text-left p-6 text-gray-300 font-semibold">Qty</th>
+                                        <th className="text-left p-6 text-gray-300 font-semibold">Medicine</th>
+                                        <th className="text-left p-6 text-gray-300 font-semibold">Price</th>
 
-                                    <th className="text-left p-6 text-gray-300 font-semibold">Qty</th>
-                                    <th className="text-left p-6 text-gray-300 font-semibold">Medicine</th>
-                                    <th className="text-left p-6 text-gray-300 font-semibold">Price</th>
 
-                                    
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {sortedSales.map((sale, i) => (
-                                    <tr key={i} className="border-b border-gray-700/30 hover:bg-gray-700/20 transition-colors">
-                                        <td className="p-6 text-white font-medium flex items-center gap-2">
-                                            {sale.stockId}
-                                            <button
-                                                onClick={() => navigator.clipboard.writeText(sale.stockId).then(() => toast.success("Stock ID copied to clipboard"))}
-                                                className="text-gray-400 cursor-pointer hover:text-white transition-colors"
-                                                title="Copy to clipboard"
-                                            >
-                                                {/* You can use an icon instead of text */}
-                                                <Copy className="w-4 h-4" />
-                                            </button>
-                                        </td>
-
-                                        <td className="p-6 text-green-400 font-semibold">{formateDate(sale.createdAt)}</td>
-                                        <td className="p-6 text-white">{sale.soldQuantity}</td>
-                                        <td className="p-6 text-gray-300">{sale.medicine?.name?.toUpperCase()}</td>
-                                        <td className="p-6 text-white">{sale.totalPrice}</td>
-
-                                        
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                                            )}
+                                </thead>
+                                <tbody>
+                                    {sortedSales.map((sale, i) => (
+                                        <tr key={i} className="border-b border-gray-700/30 hover:bg-gray-700/20 transition-colors">
+                                            <td className="p-6 text-white font-medium flex items-center gap-2">
+                                                {sale.stockId}
+                                                <button
+                                                    onClick={() => navigator.clipboard.writeText(sale.stockId).then(() => toast.success("Stock ID copied to clipboard"))}
+                                                    className="text-gray-400 cursor-pointer hover:text-white transition-colors"
+                                                    title="Copy to clipboard"
+                                                >
+                                                    {/* You can use an icon instead of text */}
+                                                    <Copy className="w-4 h-4" />
+                                                </button>
+                                            </td>
+
+                                            <td className="p-6 text-green-400 font-semibold">{formateDate(sale.createdAt)}</td>
+                                            <td className="p-6 text-white">{sale.soldQuantity}</td>
+                                            <td className="p-6 text-gray-300">{sale.medicine?.name?.toUpperCase()}</td>
+                                            <td className="p-6 text-white">{sale.totalPrice}</td>
+
+
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        )}
                     </div>
                 </div>
 

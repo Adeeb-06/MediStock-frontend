@@ -54,7 +54,7 @@ const StocksTable = () => {
         return count + (isExpired && hasStock ? 1 : 0);
     }, 0);
 
-    
+
 
 
 
@@ -242,21 +242,22 @@ const StocksTable = () => {
                                             className={`border-b border-gray-700/30 hover:bg-gray-700/20 transition-colors 
           ${isExpired ? "bg-red-600/20" : ""}`}
                                         >
-                                           
-                                            <div className='flex items-center '>
-                                            <td className="p-6  text-white font-medium max-w-[150px] truncate">
-                                                {stock._id}
+
+                                            <td className="p-6 text-white font-medium max-w-[150px] truncate relative">
+                                                <span className="block truncate pr-6">{stock._id}</span>
+                                                <button
+                                                    onClick={() =>
+                                                        navigator.clipboard
+                                                            .writeText(stock._id)
+                                                            .then(() => toast.success("Stock ID copied to clipboard"))
+                                                    }
+                                                    className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                                                    title="Copy to clipboard"
+                                                >
+                                                    <Copy className="w-4 h-4" />
+                                                </button>
                                             </td>
-                                                 <button
-                                                onClick={() => navigator.clipboard.writeText(stock._id).then(() => toast.success("Stock ID copied to clipboard"))}
-                                                className="text-gray-400 cursor-pointer hover:text-white transition-colors"
-                                                title="Copy to clipboard"
-                                            >
-                                                {/* You can use an icon instead of text */}
-                                                <Copy className="w-4 h-4" />
-                                            </button>
-                                            
-                                            </div>
+
                                             <td className="p-6 text-green-400 font-semibold">{formateDate(stock.createdAt)}</td>
                                             <td className="p-6 text-white">{stock.qtyCopy}</td>
                                             <td className="p-6 text-white">{stock.quantity}</td>
