@@ -7,7 +7,7 @@ import DashboardActionButtons from './DashboardActionButtons'
 import { Menu, X } from 'lucide-react'
 
 const Dashboard = () => {
-    const { salesData, stocksData, getSales, getAllStocks, isOpen, setIsOpen, isMobile } = useContext(AppContent)
+    const { salesData, stocksData, getSales, getAllStocks, getMedicines , medicinesData } = useContext(AppContent)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -15,6 +15,7 @@ const Dashboard = () => {
             setLoading(true)
             await getSales()
             await getAllStocks()
+            await getMedicines()
             setLoading(false)
         }
         fetchData()
@@ -63,7 +64,7 @@ const Dashboard = () => {
 
             <div className='grid grid-row-1 sm:grid-row-2 lg:grid-row-4 gap-6'>
 
-                <DashboardStats salesData={salesData} stocksData={stocksData} />
+                <DashboardStats salesData={salesData} stocksData={stocksData} medicinesData={medicinesData?.medicine} />
                 <DashboardActionButtons />
                 <Chart />
             </div>

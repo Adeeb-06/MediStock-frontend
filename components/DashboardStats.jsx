@@ -7,7 +7,7 @@ import { TrendingUp, Package, DollarSign, Target, AlertCircle } from 'lucide-rea
 const DashboardStats = ({ salesData, stocksData }) => {
     //   const [startDate, setStartDate] = useState('')
     //   const [endDate, setEndDate] = useState('')
-    const { startDate, setStartDate, endDate, setEndDate } = useContext(AppContent)
+    const { startDate, setStartDate, endDate, setEndDate ,medicinesData } = useContext(AppContent)
     const [totalSales, setTotalSales] = useState(0)
     const [totalStocks, setTotalStocks] = useState(0)
     const [totalSpend, setTotalSpend] = useState(0)
@@ -39,18 +39,22 @@ const DashboardStats = ({ salesData, stocksData }) => {
         return colors[color]
     }
 
+
+    const medicines = Array.isArray(medicinesData?.medicines)
+  ? medicinesData.medicines
+  : Object.values(medicinesData?.medicines || {})
+
+    // console.log(medicines)
+    // console.log(stocksData)
     useEffect(() => {
         if (!salesData?.length || !stocksData?.length) return;
 
         setTotalSales(
             salesData.reduce((total, sale) => total + (sale.totalPrice || 0), 0)
         );
-        setTotalStocks(
-            stocksData.reduce((total, stock) => total + (Number(stock.quantity) || 0), 0)
-        );
-        setExpiredStocks(
-            stocksData.filter(stock => new Date(stock.expiryDate) < new Date())
-        );
+        const inStockMedicines = medicines?.filter(med => med.stockNumber > 0)
+        console.log(inStockMedicines?.length)
+        setTotalStocks(inStockMedicines.length);
         setTotalSpend(
             stocksData.reduce((total, stock) => total + (stock.totalPrice || 0), 0)
         );
@@ -65,7 +69,7 @@ const DashboardStats = ({ salesData, stocksData }) => {
             color: 'blue'
         },
         {
-            title: 'In Stock',
+            title: 'Medicines In Stock',
             value: totalStocks,
             icon: Package,
             color: 'green'
