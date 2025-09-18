@@ -1,8 +1,11 @@
-import React from 'react';
+"use client"
+import React, { useContext } from 'react';
 import { ArrowRight, Shield, BarChart3, Package, Users, Zap } from 'lucide-react';
 import Link from 'next/link';
+import { AppContent } from '@/app/context/AppContext';
 
 export default function Hero() {
+  const {isLoggedIn} = useContext(AppContent)
 
 
   return (
@@ -73,7 +76,7 @@ export default function Hero() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-8">
-            <Link href="/login">
+            <Link href={` ${isLoggedIn ? '/dashboard' : '/login'}`}>
             
             <button 
             //   onClick={handleLogin}

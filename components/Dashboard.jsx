@@ -7,7 +7,7 @@ import DashboardActionButtons from './DashboardActionButtons'
 import { Menu, X } from 'lucide-react'
 
 const Dashboard = () => {
-    const { salesData, stocksData, getSales, getAllStocks, getMedicines , medicinesData } = useContext(AppContent)
+    const { salesData, stocksData, getSales, getAllStocks, getMedicines , medicinesData , user } = useContext(AppContent)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -52,10 +52,10 @@ const Dashboard = () => {
 
                 <div className="texts flex flex-col">
                     <h1 className="text-2xl md:text-3xl font-bold text-white mb-2 bg-clip-text bg-gradient-to-r from-green-400 to-blue-500">
-                        Welcome Back, Admin!
+                        Welcome Back, {user?.name}!
                     </h1>
                     <p className="text-gray-400 text-lg md:text-xl">
-                        Here’s a summary of your inventory and sales
+                        Here's a summary of your inventory and sales
                     </p>
                 </div>
             </div>
