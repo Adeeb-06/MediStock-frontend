@@ -7,7 +7,7 @@ import { TrendingUp, Package, DollarSign, Target, AlertCircle } from 'lucide-rea
 const DashboardStats = ({ salesData, stocksData }) => {
     //   const [startDate, setStartDate] = useState('')
     //   const [endDate, setEndDate] = useState('')
-    const { startDate, setStartDate, endDate, setEndDate ,medicinesData } = useContext(AppContent)
+    const { startDate, setStartDate, endDate, setEndDate, medicinesData } = useContext(AppContent)
     const [totalSales, setTotalSales] = useState(0)
     const [totalStocks, setTotalStocks] = useState(0)
     const [totalSpend, setTotalSpend] = useState(0)
@@ -41,8 +41,8 @@ const DashboardStats = ({ salesData, stocksData }) => {
 
 
     const medicines = Array.isArray(medicinesData?.medicines)
-  ? medicinesData.medicines
-  : Object.values(medicinesData?.medicines || {})
+        ? medicinesData.medicines
+        : Object.values(medicinesData?.medicines || {})
 
     // console.log(medicines)
     // console.log(stocksData)
@@ -92,7 +92,10 @@ const DashboardStats = ({ salesData, stocksData }) => {
 
     const handleApply = (startDate, endDate) => {
         const start = new Date(startDate);
+        start.setHours(0, 0, 0, 0); // start of day
+
         const end = new Date(endDate);
+        end.setHours(23, 59, 59, 999); // end of day
         // filter sales by date
         const filteredSales = salesData?.filter(
             sale => new Date(sale.createdAt) >= start && new Date(sale.createdAt) <= end
@@ -103,6 +106,8 @@ const DashboardStats = ({ salesData, stocksData }) => {
         const filteredStocks = stocksData?.filter(
             stock => new Date(stock.createdAt) >= start && new Date(stock.createdAt) <= end
         ) || [];
+
+        console.log(filteredStocks , 'aldf')
 
         setTotalSales(
             filteredSales.reduce((total, sale) => total + (sale.totalPrice || 0), 0)
