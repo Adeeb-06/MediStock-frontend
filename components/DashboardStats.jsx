@@ -46,19 +46,31 @@ const DashboardStats = ({ salesData, stocksData }) => {
 
     // console.log(medicines)
     // console.log(stocksData)
-    useEffect(() => {
-        if (!salesData?.length || !stocksData?.length) return;
+ useEffect(() => {
+    if (!salesData?.length || !stocksData?.length) return;
 
-        setTotalSales(
-            salesData.reduce((total, sale) => total + (sale.totalPrice || 0), 0)
-        );
-        const inStockMedicines = medicines?.filter(med => med.stockNumber > 0)
-        console.log(inStockMedicines?.length)
-        setTotalStocks(inStockMedicines.length);
-        setTotalSpend(
-            stocksData.reduce((total, stock) => total + (stock.totalPrice || 0), 0)
-        );
-    }, [salesData, stocksData]);
+    // total sales
+    setTotalSales(
+        salesData.reduce((total, sale) => total + (sale.totalPrice || 0), 0)
+    );
+
+    // medicines in stock
+    const inStockMedicines = medicines?.filter(med => med.stockNumber > 0);
+    setTotalStocks(inStockMedicines.length);
+
+    // total spend
+    setTotalSpend(
+        stocksData.reduce((total, stock) => total + (stock.totalPrice || 0), 0)
+    );
+
+    // expired stocks
+    const now = new Date();
+    const expired = stocksData.filter(
+        stock => new Date(stock.expiryDate) < now
+    );
+    setExpiredStocks(expired);
+}, [salesData, stocksData, medicines]);
+
 
 
     const stats = [
