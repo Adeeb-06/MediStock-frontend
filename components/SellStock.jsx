@@ -119,8 +119,15 @@ const SellStock = () => {
 
                         {/* Quantity */}
                         <input
-                          type="number"
-                          step="1"
+                          type="text"
+                          inputMode="numeric"
+                          onWheel={(e) => e.preventDefault()} // stops scroll change
+                          onKeyDown={(e) => {
+                            if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+                              e.preventDefault(); // stops arrow key change
+                            }
+                          }}
+
                           min="0"
                           {...register(`stocks.${index}.quantity`, {
                             required: "Quantity is required",

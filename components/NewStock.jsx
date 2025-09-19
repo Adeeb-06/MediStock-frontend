@@ -86,10 +86,15 @@ const NewStock = () => {
                       )}
 
                       <input
-                        type="number"
+                        type="text"
                         step="1"
                         inputMode="numeric"
-                        onWheel={(e) => e.currentTarget.blur()} // disables scroll change
+                        onWheel={(e) => e.preventDefault()} // stops scroll change
+                        onKeyDown={(e) => {
+                          if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+                            e.preventDefault(); // stops arrow key change
+                          }
+                        }}
                         {...register(`stocks.${index}.medicinePrice`, {
                           required: "Price is required",
                           min: { value: 1, message: "Price must be at least 1" }
@@ -102,11 +107,14 @@ const NewStock = () => {
                         <p className="text-red-500 text-xs">{errors.stocks?.[index]?.price?.message}</p>
                       )}
                       <input
-                        type="number"
-                        step="1"
+                        type="text"
                         inputMode="numeric"
-                        onWheel={(e) => e.currentTarget.blur()} // 
-
+                        onWheel={(e) => e.preventDefault()} // stops scroll change
+                        onKeyDown={(e) => {
+                          if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+                            e.preventDefault(); // stops arrow key change
+                          }
+                        }}
                         {...register(`stocks.${index}.costPrice`, {
                           required: "Cost Price is required",
                           min: { value: 1, message: "Quantity must be at least 1" }
@@ -118,8 +126,15 @@ const NewStock = () => {
                         <p className="text-red-500 text-xs">{errors.stocks?.[index]?.price?.message}</p>
                       )}
                       <input
-                        type="number"
-                        step="0.01"
+                        type="text"
+                        inputMode="numeric"
+                        onWheel={(e) => e.preventDefault()} // stops scroll change
+                        onKeyDown={(e) => {
+                          if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+                            e.preventDefault(); // stops arrow key change
+                          }
+                        }}
+
                         min="0"
                         {...register(`stocks.${index}.quantity`, {
                           required: "Quantity is required",
@@ -133,7 +148,7 @@ const NewStock = () => {
                       )}
                       <input
                         type="date"
-                        step="0.01"
+
                         min="0"
                         {...register(`stocks.${index}.expiryDate`, { required: "Select an expiry date" })}
                         className="w-full bg-gray-700/50 border border-gray-600 rounded-xl px-4 py-3 text-white"
