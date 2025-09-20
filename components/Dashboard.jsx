@@ -51,9 +51,9 @@ const Dashboard = () => {
                 <div className="texts flex flex-col">
                     {/* Paint immediately, update later */}
                     <h1 
-                        className={`${inter.className} text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500 mb-2`}
+                        className={` text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500 mb-2`}
                     >
-                        Welcome Back{user?.name ? `, ${user.name}!` : "!"}
+                       Welcome Back{user?.name ? `, ${user.name}!` : "!"}
                     </h1>
                 </div>
             </div>
