@@ -5,9 +5,11 @@ import { AppContent } from '@/app/context/AppContext'
 import Chart from './Chart'
 import DashboardActionButtons from './DashboardActionButtons'
 import { Menu, X } from 'lucide-react'
+import { Inter } from "next/font/google";
+const inter = Inter({ subsets: ["latin"] });
 
 const Dashboard = () => {
-    const { salesData, stocksData, getSales, getAllStocks, getMedicines , medicinesData , user } = useContext(AppContent)
+    const { salesData, stocksData, getSales, getAllStocks, getMedicines, medicinesData, user } = useContext(AppContent)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -48,11 +50,11 @@ const Dashboard = () => {
 
             {/* Welcome Heading */}
             <div className="flex items-center gap-5 mb-5">
-              
+
 
                 <div className="texts flex flex-col">
-                    <h1 className="text-2xl md:text-3xl font-bold text-white mb-2 bg-clip-text bg-gradient-to-r from-green-400 to-blue-500">
-                        Welcome Back, {user?.name}!
+                    <h1 className={`${inter.className} text-2xl md:text-3xl font-bold text-white mb-2 bg-clip-text bg-gradient-to-r from-green-400 to-blue-500`}>
+                        Welcome Back!
                     </h1>
                     <p className="text-gray-400 text-lg md:text-xl">
                         Here's a summary of your inventory and sales
