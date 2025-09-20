@@ -112,7 +112,7 @@ const SideBar = () => {
                                 key={item.name}
                                 href={item.href}
                                 onClick={() => isMobile && setIsOpen(false)}
-                                className="group relative flex items-center px-4 py-3 rounded-xl text-gray-300 hover:text-white transition-all duration-300 hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-purple-600/20 backdrop-blur-sm border border-transparent hover:border-blue-500/30"
+                                className="group relative flex items-center px-4 py-2 rounded-xl text-gray-300 hover:text-white transition-all duration-300 hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-purple-600/20 backdrop-blur-sm border border-transparent hover:border-blue-500/30"
                                 style={{ animationDelay: `${index * 50}ms` }}
                             >
                                 {/* Hover Effect Background */}
