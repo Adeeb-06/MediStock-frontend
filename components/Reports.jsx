@@ -61,7 +61,7 @@ export default function Reports() {
   }, [startDate, endDate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800 p-6">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6">
       <div className="w-full max-w-lg bg-gray-900/70 backdrop-blur-lg shadow-2xl rounded-2xl border border-gray-700 p-8 text-white">
         <h1 className="text-3xl font-extrabold mb-6 text-center bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
           📊 Export Sales Report
