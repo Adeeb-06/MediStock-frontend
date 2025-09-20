@@ -65,8 +65,8 @@ const Dashboard = () => {
             <div className='grid grid-row-1 sm:grid-row-2 lg:grid-row-4 gap-6'>
 
                 <DashboardStats salesData={salesData} stocksData={stocksData} medicinesData={medicinesData?.medicine} />
-                <DashboardActionButtons />
                 <Chart />
+                <DashboardActionButtons />
             </div>
 
             {/* Stats Cards */}
