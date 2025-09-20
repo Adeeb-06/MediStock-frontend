@@ -4,8 +4,8 @@ import DashboardStats from './DashboardStats'
 import { AppContent } from '@/app/context/AppContext'
 import Chart from './Chart'
 import DashboardActionButtons from './DashboardActionButtons'
-import { Menu, X } from 'lucide-react'
 import { Inter } from "next/font/google";
+
 const inter = Inter({ subsets: ["latin"] });
 
 const Dashboard = () => {
@@ -22,8 +22,6 @@ const Dashboard = () => {
         }
         fetchData()
     }, [])
-    // console.log(salesData)
-
 
     if (loading) {
         return (
@@ -50,28 +48,27 @@ const Dashboard = () => {
 
             {/* Welcome Heading */}
             <div className="flex items-center gap-5 mb-5">
-
-
                 <div className="texts flex flex-col">
-                    <h1 className={`${inter.className} text-2xl md:text-3xl font-bold text-white mb-2 bg-clip-text bg-gradient-to-r from-green-400 to-blue-500`}>
-                        Welcome Back!
+                    {/* Paint immediately, update later */}
+                    <h1 
+                        className={`${inter.className} text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500 mb-2`}
+                    >
+                        Welcome Back{user?.name ? `, ${user.name}!` : "!"}
                     </h1>
-                    <p className="text-gray-400 text-lg md:text-xl">
-                        Here's a summary of your inventory and sales
-                    </p>
                 </div>
             </div>
 
             <hr className='mb-4 border-gray-700/50' />
 
             <div className='grid grid-row-1 sm:grid-row-2 lg:grid-row-4 gap-6'>
-
-                <DashboardStats salesData={salesData} stocksData={stocksData} medicinesData={medicinesData?.medicine} />
+                <DashboardStats 
+                    salesData={salesData} 
+                    stocksData={stocksData} 
+                    medicinesData={medicinesData?.medicine} 
+                />
                 <Chart />
                 <DashboardActionButtons />
             </div>
-
-            {/* Stats Cards */}
         </div>
     )
 }
