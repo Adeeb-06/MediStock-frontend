@@ -1,6 +1,6 @@
 "use client"
 import React, { useContext, useState, useEffect } from 'react'
-import { Pill, Package, TrendingUp, Home, LogOut, Building2, X, Menu, ChevronRight } from 'lucide-react'
+import { Pill, Package, TrendingUp, Home, LogOut, Building2, X, Menu, ChevronRight, BarChart3 } from 'lucide-react'
 import Link from 'next/link'
 import axios from 'axios'
 import { AppContent } from '@/app/context/AppContext'
@@ -62,6 +62,7 @@ const SideBar = () => {
         { name: 'Companies', href: '/dashboard/companies', icon: Building2 },
         { name: 'Stocks', href: '/dashboard/stock', icon: Package },
         { name: 'Sales', href: '/dashboard/sales', icon: TrendingUp },
+        { name: 'Sales Report', href: '/dashboard/report', icon: BarChart3 },
     ]
 
     return (
