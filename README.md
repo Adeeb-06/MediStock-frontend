@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# PharmaTrack Dashboard 💊
 
-## Getting Started
+A full-featured **Pharmacy Management Dashboard** built with **Next.js**, **MongoDB**, and **JWT Authentication**.  
+Designed to streamline pharmacy operations, track inventory, manage sales, and provide a smooth user experience.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 About
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+PharmaTrack is a modern dashboard for pharmacies with all essential functionalities:  
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- User authentication   
+- Inventory management for medicines and products  
+- Sales tracking  
+- Reports and analytics for pharmacy performance  
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The dashboard is responsive, fast, and secure, deployed on **Vercel** for instant access.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| **Category** | **Technologies** |
+|-------------|------------------|
+| **Frontend** | [![My Skills](https://skillicons.dev/icons?i=js,html,css,nextjs,tailwind,react)](https://skillicons.dev) |
+| **Backend & Database** |  [![My Skills](https://skillicons.dev/icons?i=nodejs,mongodb,express)](https://skillicons.dev) |
+| **Authentication** | JWT (JSON Web Tokens) |
+| **Deployment & Version Control** | [![My Skills](https://skillicons.dev/icons?i=git,github,vercel)](https://skillicons.dev) |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🚀 Features
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- User signup, login, 
+- Add, update, and delete medicines  
+- Track sales   
+- Manage expired medicines
+- Dashboard analytics & reports  
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 📌 Live Demo
+🔗https://pharma-track-adeeb.vercel.app
